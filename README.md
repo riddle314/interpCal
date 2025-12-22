@@ -1,0 +1,2 @@
+# interpCal
+Linear Interpolation Calculator
