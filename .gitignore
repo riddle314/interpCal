@@ -32,3 +32,15 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Other generated files
+*.ap_
+*.dex
+*.class
+*.zip
+*.jar
+*~
+*.swp
+
+# Mac specific files
+.DS_Store

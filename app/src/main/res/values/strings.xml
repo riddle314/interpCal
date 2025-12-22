@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Interpolator</string>
+    <string name="header_title">Linear Interpolation</string>
+</resources>
