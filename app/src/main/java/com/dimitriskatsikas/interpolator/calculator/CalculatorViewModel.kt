@@ -21,24 +21,27 @@ class CalculatorViewModel : ViewModel() {
 
     fun onUiAction(action: CalculatorView.UiAction) {
         when (action) {
-            is CalculatorView.UiAction.Calculate -> calculate(action)
+            is CalculatorView.UiAction.Calculate -> calculate()
             is CalculatorView.UiAction.InputChange -> updateCta(action)
-            CalculatorView.UiAction.Clear -> TODO()
-            CalculatorView.UiAction.OpenInfoScreen -> TODO()
+            CalculatorView.UiAction.Clear -> clearState()
+            CalculatorView.UiAction.OpenInfoScreen -> {
+                TODO()
+            }
         }
     }
 
-    private fun calculate(action: CalculatorView.UiAction.Calculate) {
+    private fun calculate() {
         _state.update {
             it.copy(ctaState = CalculatorView.State.CtaState.Loading)
         }
+        val currentState = _state.value
         viewModelScope.launch(Dispatchers.Default) {
             val result = computeLinearInterpolation(
-                inputX1 = action.inputX1,
-                inputY1 = action.inputY1,
-                inputX2 = action.inputX2,
-                inputY2 = action.inputY2,
-                inputX3 = action.inputX3
+                inputX1 = currentState.inputX1,
+                inputY1 = currentState.inputY1,
+                inputX2 = currentState.inputX2,
+                inputY2 = currentState.inputY2,
+                inputX3 = currentState.inputX3
             )
 
             _state.update {
@@ -50,20 +53,26 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
-    private fun updateCta(inputChange: CalculatorView.UiAction.InputChange) {
-        if (inputChange.inputX1.isNotEmpty() &&
-            inputChange.inputY1.isNotEmpty() &&
-            inputChange.inputX2.isNotEmpty() &&
-            inputChange.inputY2.isNotEmpty() &&
-            inputChange.inputX3.isNotEmpty()
-        ) {
-            _state.update {
-                it.copy(ctaState = CalculatorView.State.CtaState.Enabled)
-            }
-        } else {
-            _state.update {
-                it.copy(ctaState = CalculatorView.State.CtaState.Disabled)
-            }
+    private fun updateCta(action: CalculatorView.UiAction.InputChange) {
+        val allFieldsFilled = action.inputX1.isNotEmpty() &&
+                action.inputY1.isNotEmpty() &&
+                action.inputX2.isNotEmpty() &&
+                action.inputY2.isNotEmpty() &&
+                action.inputX3.isNotEmpty()
+
+        _state.update {
+            it.copy(
+                inputX1 = action.inputX1,
+                inputY1 = action.inputY1,
+                inputX2 = action.inputX2,
+                inputY2 = action.inputY2,
+                inputX3 = action.inputX3,
+                ctaState = if (allFieldsFilled) {
+                    CalculatorView.State.CtaState.Enabled
+                } else {
+                    CalculatorView.State.CtaState.Disabled
+                }
+            )
         }
     }
 
@@ -75,5 +84,19 @@ class CalculatorViewModel : ViewModel() {
         inputX3: String
     ): String {
         return "32"
+    }
+
+    private fun clearState() {
+        _state.update {
+            it.copy(
+                inputX1 = "",
+                inputY1 = "",
+                inputX2 = "",
+                inputY2 = "",
+                inputX3 = "",
+                result = "",
+                ctaState = CalculatorView.State.CtaState.Disabled
+            )
+        }
     }
 }

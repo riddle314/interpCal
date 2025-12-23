@@ -14,17 +14,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.dimitriskatsikas.interpolator.R
 import com.dimitriskatsikas.interpolator.calculator.CalculatorView.UiAction
+import com.dimitriskatsikas.interpolator.utils.Previews
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,34 +61,24 @@ fun MainContent(
     paddingValues: PaddingValues,
     onAction: (UiAction) -> Unit
 ) {
-    // Add states for the TextFields
-    var inputX1 by remember { mutableStateOf("") }
-    var inputY1 by remember { mutableStateOf("") }
-    var inputX2 by remember { mutableStateOf("") }
-    var inputY2 by remember { mutableStateOf("") }
-    var inputX3 by remember { mutableStateOf("") }
-
     Column(
         modifier = Modifier
             .padding(paddingValues)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Enter values:"
-        )
+        Text(text = "Enter values:")
         Spacer(Modifier.height(16.dp))
         TextField(
-            value = inputX1,
+            value = state.inputX1,
             onValueChange = { newText ->
-                inputX1 = newText
                 onAction(
                     UiAction.InputChange(
-                        inputX1 = inputX1,
-                        inputY1 = inputY1,
-                        inputX2 = inputX2,
-                        inputY2 = inputY2,
-                        inputX3 = inputX3
+                        inputX1 = newText,
+                        inputY1 = state.inputY1,
+                        inputX2 = state.inputX2,
+                        inputY2 = state.inputY2,
+                        inputX3 = state.inputX3
                     )
                 )
             },
@@ -99,16 +86,15 @@ fun MainContent(
         )
         Spacer(Modifier.height(16.dp))
         TextField(
-            value = inputY1,
+            value = state.inputY1,
             onValueChange = { newText ->
-                inputY1 = newText
                 onAction(
                     UiAction.InputChange(
-                        inputX1 = inputX1,
-                        inputY1 = inputY1,
-                        inputX2 = inputX2,
-                        inputY2 = inputY2,
-                        inputX3 = inputX3
+                        inputX1 = state.inputX1,
+                        inputY1 = newText,
+                        inputX2 = state.inputX2,
+                        inputY2 = state.inputY2,
+                        inputX3 = state.inputX3
                     )
                 )
             },
@@ -116,16 +102,15 @@ fun MainContent(
         )
         Spacer(Modifier.height(16.dp))
         TextField(
-            value = inputX2,
+            value = state.inputX2,
             onValueChange = { newText ->
-                inputX2 = newText
                 onAction(
                     UiAction.InputChange(
-                        inputX1 = inputX1,
-                        inputY1 = inputY1,
-                        inputX2 = inputX2,
-                        inputY2 = inputY2,
-                        inputX3 = inputX3
+                        inputX1 = state.inputX1,
+                        inputY1 = state.inputY1,
+                        inputX2 = newText,
+                        inputY2 = state.inputY2,
+                        inputX3 = state.inputX3
                     )
                 )
             },
@@ -133,16 +118,15 @@ fun MainContent(
         )
         Spacer(Modifier.height(16.dp))
         TextField(
-            value = inputY2,
+            value = state.inputY2,
             onValueChange = { newText ->
-                inputY2 = newText
                 onAction(
                     UiAction.InputChange(
-                        inputX1 = inputX1,
-                        inputY1 = inputY1,
-                        inputX2 = inputX2,
-                        inputY2 = inputY2,
-                        inputX3 = inputX3
+                        inputX1 = state.inputX1,
+                        inputY1 = state.inputY1,
+                        inputX2 = state.inputX2,
+                        inputY2 = newText,
+                        inputX3 = state.inputX3
                     )
                 )
             },
@@ -150,37 +134,39 @@ fun MainContent(
         )
         Spacer(Modifier.height(16.dp))
         TextField(
-            value = inputX3,
+            value = state.inputX3,
             onValueChange = { newText ->
-                inputX3 = newText
                 onAction(
                     UiAction.InputChange(
-                        inputX1 = inputX1,
-                        inputY1 = inputY1,
-                        inputX2 = inputX2,
-                        inputY2 = inputY2,
-                        inputX3 = inputX3
+                        inputX1 = state.inputX1,
+                        inputY1 = state.inputY1,
+                        inputX2 = state.inputX2,
+                        inputY2 = state.inputY2,
+                        inputX3 = newText
                     )
                 )
             },
             label = { Text("x3") }
         )
         Spacer(Modifier.height(16.dp))
-        CtaButton(state, onAction, inputX1, inputY1, inputX2, inputY2, inputX3)
+        CalculateButton(state, onAction)
         Spacer(Modifier.height(16.dp))
-        Text(text = "Result is ${state.result}")
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onAction(UiAction.Clear) },
+            enabled = true
+        ) {
+            Text(text = "Clear fields")
+        }
+        Spacer(Modifier.height(16.dp))
+        Text(text = "Result is: ${state.result}")
     }
 }
 
 @Composable
-private fun CtaButton(
+private fun CalculateButton(
     state: CalculatorView.State,
-    onAction: (UiAction) -> Unit,
-    inputX1: String,
-    inputY1: String,
-    inputX2: String,
-    inputY2: String,
-    inputX3: String
+    onAction: (UiAction) -> Unit
 ) {
     when (state.ctaState) {
         CalculatorView.State.CtaState.Disabled -> Button(
@@ -193,17 +179,7 @@ private fun CtaButton(
 
         CalculatorView.State.CtaState.Enabled -> Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                onAction(
-                    UiAction.Calculate(
-                        inputX1 = inputX1,
-                        inputY1 = inputY1,
-                        inputX2 = inputX2,
-                        inputY2 = inputY2,
-                        inputX3 = inputX3
-                    )
-                )
-            }
+            onClick = { onAction(UiAction.Calculate) }
         ) {
             Text(text = "Calculate")
         }
@@ -218,12 +194,14 @@ private fun CtaButton(
     }
 }
 
-@Preview
+@Previews
 @Composable
-private fun CalculatorPreview() {
+private fun CalculatorPreview(
+    @PreviewParameter(CalculatorPreviewStateProvider::class) state: CalculatorView.State
+) {
     MaterialTheme {
         Calculator(
-            state = CalculatorView.State(),
+            state = state,
             onAction = {}
         )
     }

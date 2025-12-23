@@ -3,6 +3,11 @@ package com.dimitriskatsikas.interpolator.calculator
 object CalculatorView {
 
     data class State(
+        val inputX1: String = "",
+        val inputY1: String = "",
+        val inputX2: String = "",
+        val inputY2: String = "",
+        val inputX3: String = "",
         val result: String = "",
         val ctaState: CtaState = CtaState.Disabled
     ) {
@@ -14,7 +19,6 @@ object CalculatorView {
         }
     }
 
-
     sealed interface UiAction {
 
         data class InputChange(
@@ -25,14 +29,7 @@ object CalculatorView {
             val inputX3: String
         ) : UiAction
 
-        data class Calculate(
-            val inputX1: String,
-            val inputY1: String,
-            val inputX2: String,
-            val inputY2: String,
-            val inputX3: String
-        ) : UiAction
-
+        data object Calculate : UiAction
         data object Clear : UiAction
         data object OpenInfoScreen : UiAction
     }
