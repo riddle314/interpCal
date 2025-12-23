@@ -3,8 +3,11 @@ package com.dimitriskatsikas.interpolator.calculator
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -19,13 +22,16 @@ class CalculatorViewModel : ViewModel() {
         initialValue = CalculatorView.State()
     )
 
+    private val _effect: Channel<CalculatorView.Effect> = Channel(Channel.BUFFERED)
+    val effect: Flow<CalculatorView.Effect> = _effect.receiveAsFlow()
+
     fun onUiAction(action: CalculatorView.UiAction) {
         when (action) {
             is CalculatorView.UiAction.Calculate -> calculate()
             is CalculatorView.UiAction.InputChange -> updateCta(action)
             CalculatorView.UiAction.Clear -> clearState()
             CalculatorView.UiAction.OpenInfoScreen -> {
-                TODO()
+                _effect.trySend(CalculatorView.Effect.OpenInfoScreen)
             }
         }
     }
@@ -83,7 +89,14 @@ class CalculatorViewModel : ViewModel() {
         inputY2: String,
         inputX3: String
     ): String {
-        return "32"
+        val x1 = inputX1.toBigDecimal()
+        val y1 = inputY1.toBigDecimal()
+        val x2 = inputX2.toBigDecimal()
+        val y2 = inputY2.toBigDecimal()
+        val x3 = inputX3.toBigDecimal()
+        val result  = ((y2 - y1) / (x2 - x1)) * (x3 - x1) + y1
+
+        return result.toString()
     }
 
     private fun clearState() {

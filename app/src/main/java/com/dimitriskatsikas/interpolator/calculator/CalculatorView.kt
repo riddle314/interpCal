@@ -33,4 +33,8 @@ object CalculatorView {
         data object Clear : UiAction
         data object OpenInfoScreen : UiAction
     }
+
+    sealed interface Effect{
+        data object OpenInfoScreen : Effect
+    }
 }
