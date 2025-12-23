@@ -6,8 +6,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,14 +38,14 @@ fun Calculator(
             TopAppBar(
                 title = { Text(stringResource(R.string.header_title)) },
                 actions = {
-//                    IconButton(onClick = { onAction(UiAction.OpenInfoScreen) }) {
-//                        Icon(
-//                            imageVector = Icons.Filled.Info,
-//                            contentDescription = stringResource(
-//                                R.string.info_icon_content_description
-//                            )
-//                        )
-//                    }
+                    IconButton(onClick = { onAction(UiAction.OpenInfoScreen) }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Info,
+                            contentDescription = stringResource(
+                                R.string.info_icon_content_description
+                            )
+                        )
+                    }
                 }
             )
         },
