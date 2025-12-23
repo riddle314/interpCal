@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Interpolator</string>
-    <string name="header_title">Linear Interpolation</string>
+    <string name="header_title">Interpolator Calculator</string>
+    <string name="info_icon_content_description">Info</string>
 </resources>
