@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+private const val EMPTY_STRING = ""
+
 class CalculatorViewModel : ViewModel() {
 
     private val _state = MutableStateFlow(CalculatorView.State())
@@ -28,7 +30,7 @@ class CalculatorViewModel : ViewModel() {
     fun onUiAction(action: CalculatorView.UiAction) {
         when (action) {
             is CalculatorView.UiAction.Calculate -> calculate()
-            is CalculatorView.UiAction.InputChange -> updateCta(action)
+            is CalculatorView.UiAction.InputChange -> onInputChange(action)
             CalculatorView.UiAction.Clear -> clearState()
             CalculatorView.UiAction.OpenInfoScreen -> {
                 _effect.trySend(CalculatorView.Effect.OpenInfoScreen)
@@ -42,24 +44,17 @@ class CalculatorViewModel : ViewModel() {
         }
         viewModelScope.launch(Dispatchers.Default) {
             val currentState = _state.value
-            val result = computeLinearInterpolation(
+            computeLinearInterpolation(
                 inputX1 = currentState.inputX1,
                 inputY1 = currentState.inputY1,
                 inputX2 = currentState.inputX2,
                 inputY2 = currentState.inputY2,
                 inputX3 = currentState.inputX3
             )
-
-            _state.update {
-                it.copy(
-                    result = result,
-                    ctaState = CalculatorView.State.CtaState.Enabled
-                )
-            }
         }
     }
 
-    private fun updateCta(action: CalculatorView.UiAction.InputChange) {
+    private fun onInputChange(action: CalculatorView.UiAction.InputChange) {
         val areAllFieldsFilled = action.inputX1.isNotEmpty() &&
                 action.inputY1.isNotEmpty() &&
                 action.inputX2.isNotEmpty() &&
@@ -83,7 +78,9 @@ class CalculatorViewModel : ViewModel() {
                     CalculatorView.State.CtaState.Enabled
                 } else {
                     CalculatorView.State.CtaState.Disabled
-                }
+                },
+                error = null,
+                result = EMPTY_STRING
             )
         }
     }
@@ -94,8 +91,7 @@ class CalculatorViewModel : ViewModel() {
         inputX2: String,
         inputY2: String,
         inputX3: String
-    ): String {
-        // TODO something seems not working on calculations
+    ) {
         val x1 = inputX1.toBigDecimal()
         val y1 = inputY1.toBigDecimal()
         val x2 = inputX2.toBigDecimal()
@@ -103,23 +99,36 @@ class CalculatorViewModel : ViewModel() {
         val x3 = inputX3.toBigDecimal()
 
         if (x1 == x2) {
-            return "Please provide different values for x1 and x2"
+            _state.update {
+                it.copy(
+                    result = EMPTY_STRING,
+                    ctaState = CalculatorView.State.CtaState.Enabled,
+                    error = CalculatorView.State.Error.IdenticalXInputs
+                )
+            }
         } else {
             val result = ((y2 - y1) / (x2 - x1)) * (x3 - x1) + y1
-            return result.toString()
+            _state.update {
+                it.copy(
+                    result = result.toString(),
+                    ctaState = CalculatorView.State.CtaState.Enabled,
+                    error = null
+                )
+            }
         }
     }
 
     private fun clearState() {
         _state.update {
             it.copy(
-                inputX1 = "",
-                inputY1 = "",
-                inputX2 = "",
-                inputY2 = "",
-                inputX3 = "",
-                result = "",
-                ctaState = CalculatorView.State.CtaState.Disabled
+                inputX1 = EMPTY_STRING,
+                inputY1 = EMPTY_STRING,
+                inputX2 = EMPTY_STRING,
+                inputY2 = EMPTY_STRING,
+                inputX3 = EMPTY_STRING,
+                result = EMPTY_STRING,
+                ctaState = CalculatorView.State.CtaState.Disabled,
+                error = null
             )
         }
     }

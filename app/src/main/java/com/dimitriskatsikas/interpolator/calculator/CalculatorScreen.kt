@@ -14,12 +14,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -55,6 +58,7 @@ private fun CalculatorContent(
     state: CalculatorView.State,
     onAction: (UiAction) -> Unit
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -71,6 +75,7 @@ private fun CalculatorContent(
                 }
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         content = { paddingValues ->
             MainContent(
                 state = state,
@@ -79,6 +84,17 @@ private fun CalculatorContent(
             )
         }
     )
+
+    when (state.error) {
+        CalculatorView.State.Error.IdenticalXInputs -> {
+            val message = stringResource(id = R.string.error_identical_x_inputs)
+            LaunchedEffect(state.error) {
+                snackbarHostState.showSnackbar(message)
+            }
+        }
+
+        null -> Unit
+    }
 }
 
 @Composable
@@ -93,7 +109,7 @@ fun MainContent(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Enter values:")
+        Text(text = stringResource(R.string.enter_values))
         Spacer(Modifier.height(16.dp))
         DecimalInputField(
             value = state.inputX1,
@@ -108,7 +124,7 @@ fun MainContent(
                     )
                 )
             },
-            label = "x1"
+            label = stringResource(R.string.input_label_x1)
         )
         Spacer(Modifier.height(16.dp))
         DecimalInputField(
@@ -124,7 +140,7 @@ fun MainContent(
                     )
                 )
             },
-            label = "y1"
+            label = stringResource(R.string.input_label_y1)
         )
         Spacer(Modifier.height(16.dp))
         DecimalInputField(
@@ -140,7 +156,7 @@ fun MainContent(
                     )
                 )
             },
-            label = "x2"
+            label = stringResource(R.string.input_label_x2)
         )
         Spacer(Modifier.height(16.dp))
         DecimalInputField(
@@ -156,7 +172,7 @@ fun MainContent(
                     )
                 )
             },
-            label = "y2"
+            label = stringResource(R.string.input_label_y2)
         )
         Spacer(Modifier.height(16.dp))
         DecimalInputField(
@@ -172,20 +188,23 @@ fun MainContent(
                     )
                 )
             },
-            label = "x3"
+            label = stringResource(R.string.input_label_x3)
         )
         Spacer(Modifier.height(16.dp))
-        CalculateButton(state, onAction)
-        Spacer(Modifier.height(16.dp))
+        CalculateButton(
+            state = state,
+            onAction = onAction
+        )
+        Spacer(Modifier.height(8.dp))
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = { onAction(UiAction.Clear) },
             enabled = true
         ) {
-            Text(text = "Clear fields")
+            Text(text = stringResource(R.string.clear_fields))
         }
         Spacer(Modifier.height(16.dp))
-        Text(text = "Result is: ${state.result}")
+        Text(text = stringResource(id = R.string.result, state.result))
     }
 }
 
@@ -200,14 +219,14 @@ private fun CalculateButton(
             onClick = { },
             enabled = false
         ) {
-            Text(text = "Calculate")
+            Text(text = stringResource(R.string.calculate))
         }
 
         CalculatorView.State.CtaState.Enabled -> Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = { onAction(UiAction.Calculate) }
         ) {
-            Text(text = "Calculate")
+            Text(text = stringResource(R.string.calculate))
         }
 
         CalculatorView.State.CtaState.Loading -> Button(
@@ -215,7 +234,7 @@ private fun CalculateButton(
             onClick = { },
             enabled = false
         ) {
-            Text(text = "Calculating...")
+            Text(text = stringResource(R.string.calculating))
         }
     }
 }
