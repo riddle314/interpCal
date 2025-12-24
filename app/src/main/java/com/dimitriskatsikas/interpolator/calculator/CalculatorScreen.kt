@@ -12,24 +12,44 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dimitriskatsikas.interpolator.R
 import com.dimitriskatsikas.interpolator.calculator.CalculatorView.UiAction
+import com.dimitriskatsikas.interpolator.ui.theme.InterpolatorTheme
 import com.dimitriskatsikas.interpolator.utils.Previews
+
+@Composable
+fun CalculatorScreen(
+    viewModel: CalculatorViewModel,
+    onEffect: (CalculatorView.Effect) -> Unit,
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(viewModel) {
+        viewModel.effect.collect { effect -> onEffect(effect) }
+    }
+
+    CalculatorContent(
+        state = state,
+        onAction = viewModel::onUiAction
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Calculator(
+private fun CalculatorContent(
     state: CalculatorView.State,
     onAction: (UiAction) -> Unit
 ) {
@@ -203,8 +223,8 @@ private fun CalculateButton(
 private fun CalculatorPreview(
     @PreviewParameter(CalculatorPreviewStateProvider::class) state: CalculatorView.State
 ) {
-    MaterialTheme {
-        Calculator(
+    InterpolatorTheme {
+        CalculatorContent(
             state = state,
             onAction = {}
         )
