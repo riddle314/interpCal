@@ -1,12 +1,15 @@
 package com.dimitriskatsikas.interpolator.calculator
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
@@ -101,14 +104,17 @@ private fun CalculatorContent(
 fun MainContent(
     state: CalculatorView.State,
     paddingValues: PaddingValues,
-    onAction: (UiAction) -> Unit
+    onAction: (UiAction) -> Unit,
+    scrollState: ScrollState = rememberScrollState()
 ) {
     Column(
         modifier = Modifier
             .padding(paddingValues)
-            .padding(16.dp),
+            .padding(horizontal = 16.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(Modifier.height(16.dp))
         Text(text = stringResource(R.string.enter_values))
         Spacer(Modifier.height(16.dp))
         DecimalInputField(
@@ -205,6 +211,7 @@ fun MainContent(
         }
         Spacer(Modifier.height(16.dp))
         Text(text = stringResource(id = R.string.result, state.result))
+        Spacer(Modifier.height(16.dp))
     }
 }
 
