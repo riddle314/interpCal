@@ -37,7 +37,7 @@ fun CalculatorScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(viewModel) {
+    LaunchedEffect(Unit) {
         viewModel.effect.collect { effect -> onEffect(effect) }
     }
 

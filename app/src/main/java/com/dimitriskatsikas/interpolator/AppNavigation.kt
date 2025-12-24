@@ -9,6 +9,7 @@ import com.dimitriskatsikas.interpolator.calculator.CalculatorScreen
 import com.dimitriskatsikas.interpolator.calculator.CalculatorViewModel
 import com.dimitriskatsikas.interpolator.calculator.handleCalculatorEffect
 import com.dimitriskatsikas.interpolator.info.InfoScreen
+import com.dimitriskatsikas.interpolator.info.InfoViewModel
 import com.dimitriskatsikas.interpolator.info.handleInfoEffect
 
 @Composable
@@ -35,6 +36,7 @@ fun AppNavigation() {
 
                 is Route.Info -> NavEntry(key) {
                     InfoScreen(
+                        viewModel = InfoViewModel(),
                         onEffect = {
                             handleInfoEffect(
                                 effect = it,
