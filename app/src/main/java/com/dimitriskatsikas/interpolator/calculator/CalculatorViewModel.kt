@@ -94,9 +94,13 @@ class CalculatorViewModel : ViewModel() {
         val x2 = inputX2.toBigDecimal()
         val y2 = inputY2.toBigDecimal()
         val x3 = inputX3.toBigDecimal()
-        val result  = ((y2 - y1) / (x2 - x1)) * (x3 - x1) + y1
 
-        return result.toString()
+        if (x1 == x2) {
+            return "Please provide different values for x1 and x2"
+        } else {
+            val result = ((y2 - y1) / (x2 - x1)) * (x3 - x1) + y1
+            return result.toString()
+        }
     }
 
     private fun clearState() {
