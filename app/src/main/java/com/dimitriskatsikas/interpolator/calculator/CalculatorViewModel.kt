@@ -40,8 +40,8 @@ class CalculatorViewModel : ViewModel() {
         _state.update {
             it.copy(ctaState = CalculatorView.State.CtaState.Loading)
         }
-        val currentState = _state.value
         viewModelScope.launch(Dispatchers.Default) {
+            val currentState = _state.value
             val result = computeLinearInterpolation(
                 inputX1 = currentState.inputX1,
                 inputY1 = currentState.inputY1,
@@ -60,11 +60,17 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun updateCta(action: CalculatorView.UiAction.InputChange) {
-        val allFieldsFilled = action.inputX1.isNotEmpty() &&
+        val areAllFieldsFilled = action.inputX1.isNotEmpty() &&
                 action.inputY1.isNotEmpty() &&
                 action.inputX2.isNotEmpty() &&
                 action.inputY2.isNotEmpty() &&
                 action.inputX3.isNotEmpty()
+
+        val areAllFieldsNumbers = action.inputX1.toBigDecimalOrNull() != null &&
+                action.inputY1.toBigDecimalOrNull() != null &&
+                action.inputX2.toBigDecimalOrNull() != null &&
+                action.inputY2.toBigDecimalOrNull() != null &&
+                action.inputX3.toBigDecimalOrNull() != null
 
         _state.update {
             it.copy(
@@ -73,7 +79,7 @@ class CalculatorViewModel : ViewModel() {
                 inputX2 = action.inputX2,
                 inputY2 = action.inputY2,
                 inputX3 = action.inputX3,
-                ctaState = if (allFieldsFilled) {
+                ctaState = if (areAllFieldsFilled && areAllFieldsNumbers) {
                     CalculatorView.State.CtaState.Enabled
                 } else {
                     CalculatorView.State.CtaState.Disabled
@@ -89,6 +95,7 @@ class CalculatorViewModel : ViewModel() {
         inputY2: String,
         inputX3: String
     ): String {
+        // TODO something seems not working on calculations
         val x1 = inputX1.toBigDecimal()
         val y1 = inputY1.toBigDecimal()
         val x2 = inputX2.toBigDecimal()

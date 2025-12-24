@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
@@ -22,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -93,7 +95,7 @@ fun MainContent(
     ) {
         Text(text = "Enter values:")
         Spacer(Modifier.height(16.dp))
-        TextField(
+        DecimalInputField(
             value = state.inputX1,
             onValueChange = { newText ->
                 onAction(
@@ -106,10 +108,10 @@ fun MainContent(
                     )
                 )
             },
-            label = { Text("x1") }
+            label = "x1"
         )
         Spacer(Modifier.height(16.dp))
-        TextField(
+        DecimalInputField(
             value = state.inputY1,
             onValueChange = { newText ->
                 onAction(
@@ -122,10 +124,10 @@ fun MainContent(
                     )
                 )
             },
-            label = { Text("y1") }
+            label = "y1"
         )
         Spacer(Modifier.height(16.dp))
-        TextField(
+        DecimalInputField(
             value = state.inputX2,
             onValueChange = { newText ->
                 onAction(
@@ -138,10 +140,10 @@ fun MainContent(
                     )
                 )
             },
-            label = { Text("x2") }
+            label = "x2"
         )
         Spacer(Modifier.height(16.dp))
-        TextField(
+        DecimalInputField(
             value = state.inputY2,
             onValueChange = { newText ->
                 onAction(
@@ -154,10 +156,10 @@ fun MainContent(
                     )
                 )
             },
-            label = { Text("y2") }
+            label = "y2"
         )
         Spacer(Modifier.height(16.dp))
-        TextField(
+        DecimalInputField(
             value = state.inputX3,
             onValueChange = { newText ->
                 onAction(
@@ -170,7 +172,7 @@ fun MainContent(
                     )
                 )
             },
-            label = { Text("x3") }
+            label = "x3"
         )
         Spacer(Modifier.height(16.dp))
         CalculateButton(state, onAction)
@@ -216,6 +218,22 @@ private fun CalculateButton(
             Text(text = "Calculating...")
         }
     }
+}
+
+@Composable
+private fun DecimalInputField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String
+) {
+    TextField(
+        value = value,
+        onValueChange = { newText ->
+            onValueChange(newText)
+        },
+        label = { Text(label) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+    )
 }
 
 @Previews
