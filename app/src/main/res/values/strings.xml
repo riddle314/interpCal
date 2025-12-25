@@ -2,13 +2,13 @@
     <string name="app_name">Interpolator</string>
     <string name="header_title">Interpolator Calculator</string>
     <string name="info_icon_content_description">Info</string>
-    <string name="input_label_x1">x1 (Start)</string>
-    <string name="input_label_y1">y1 (Start)</string>
-    <string name="input_label_x2">x2 (End)</string>
-    <string name="input_label_y2">y2 (End)</string>
-    <string name="input_label_x3">Target x value</string>
+    <string name="input_label_x1">x1</string>
+    <string name="input_label_y1">y1</string>
+    <string name="input_label_x2">x2</string>
+    <string name="input_label_y2">y2</string>
+    <string name="input_label_x3">Target x</string>
     <string name="clear_fields">Clear fields</string>
-    <string name="result">Result y = %1$s</string>
+    <string name="result">Result (y)</string>
     <string name="calculate">Calculate</string>
     <string name="calculating">Calculating…</string>
     <string name="error_identical_x_inputs">Please provide different values for x1 and x2</string>

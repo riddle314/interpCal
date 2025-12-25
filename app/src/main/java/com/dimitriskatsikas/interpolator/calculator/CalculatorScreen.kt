@@ -9,21 +9,24 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,6 +35,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -115,122 +120,164 @@ fun MainContent(
             .padding(paddingValues)
             .padding(horizontal = 16.dp)
             .verticalScroll(scrollState),
-//        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(16.dp))
-        Text(text = "Start Point (x1, y1)")
-        Spacer(Modifier.height(8.dp))
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            DecimalInputField(
-                value = state.inputX1,
-                onValueChange = { newText ->
-                    onAction(
-                        UiAction.InputChange(
-                            inputX1 = newText,
-                            inputY1 = state.inputY1,
-                            inputX2 = state.inputX2,
-                            inputY2 = state.inputY2,
-                            inputX3 = state.inputX3
-                        )
-                    )
-                },
-                label = stringResource(R.string.input_label_x1),
-                modifier = Modifier.weight(1f)
-            )
-            DecimalInputField(
-                value = state.inputY1,
-                onValueChange = { newText ->
-                    onAction(
-                        UiAction.InputChange(
-                            inputX1 = state.inputX1,
-                            inputY1 = newText,
-                            inputX2 = state.inputX2,
-                            inputY2 = state.inputY2,
-                            inputX3 = state.inputX3
-                        )
-                    )
-                },
-                label = stringResource(R.string.input_label_y1),
-                modifier = Modifier.weight(1f)
-            )
+        Spacer(Modifier.height(24.dp))
+        StartPointSection(state, onAction)
+        Spacer(Modifier.height(24.dp))
+        EndPointSection(state, onAction)
+        Spacer(Modifier.height(24.dp))
+        TargetValueSection(state, onAction)
+        Spacer(Modifier.height(24.dp))
+        if (state.result.isNotEmpty()) {
+            ResultCard(result = state.result)
+            Spacer(Modifier.height(24.dp))
         }
-        Spacer(Modifier.height(16.dp))
-        Text(text = "End Point (x2, y2)")
-        Spacer(Modifier.height(8.dp))
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            DecimalInputField(
-                value = state.inputX2,
-                onValueChange = { newText ->
-                    onAction(
-                        UiAction.InputChange(
-                            inputX1 = state.inputX1,
-                            inputY1 = state.inputY1,
-                            inputX2 = newText,
-                            inputY2 = state.inputY2,
-                            inputX3 = state.inputX3
-                        )
-                    )
-                },
-                label = stringResource(R.string.input_label_x2),
-                modifier = Modifier.weight(1f)
-            )
-            DecimalInputField(
-                value = state.inputY2,
-                onValueChange = { newText ->
-                    onAction(
-                        UiAction.InputChange(
-                            inputX1 = state.inputX1,
-                            inputY1 = state.inputY1,
-                            inputX2 = state.inputX2,
-                            inputY2 = newText,
-                            inputX3 = state.inputX3
-                        )
-                    )
-                },
-                label = stringResource(R.string.input_label_y2),
-                modifier = Modifier.weight(1f)
-            )
-        }
-        Spacer(Modifier.height(16.dp))
+        CalculateButton(
+            state = state,
+            onAction = onAction
+        )
+        Spacer(Modifier.height(12.dp))
+        ClearButton(onAction)
+        Spacer(Modifier.weight(1f))
+        Spacer(Modifier.height(50.dp))
+    }
+}
+
+@Composable
+private fun StartPointSection(
+    state: CalculatorView.State,
+    onAction: (UiAction) -> Unit
+) {
+    SectionHeader(text = "Start Point (x1, y1)")
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
         DecimalInputField(
-            value = state.inputX3,
+            value = state.inputX1,
+            onValueChange = { newText ->
+                onAction(
+                    UiAction.InputChange(
+                        inputX1 = newText,
+                        inputY1 = state.inputY1,
+                        inputX2 = state.inputX2,
+                        inputY2 = state.inputY2,
+                        inputX3 = state.inputX3
+                    )
+                )
+            },
+            label = stringResource(R.string.input_label_x1),
+            modifier = Modifier.weight(1f)
+        )
+        DecimalInputField(
+            value = state.inputY1,
+            onValueChange = { newText ->
+                onAction(
+                    UiAction.InputChange(
+                        inputX1 = state.inputX1,
+                        inputY1 = newText,
+                        inputX2 = state.inputX2,
+                        inputY2 = state.inputY2,
+                        inputX3 = state.inputX3
+                    )
+                )
+            },
+            label = stringResource(R.string.input_label_y1),
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+@Composable
+private fun EndPointSection(
+    state: CalculatorView.State,
+    onAction: (UiAction) -> Unit
+) {
+    SectionHeader(text = "End Point (x2, y2)")
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        DecimalInputField(
+            value = state.inputX2,
+            onValueChange = { newText ->
+                onAction(
+                    UiAction.InputChange(
+                        inputX1 = state.inputX1,
+                        inputY1 = state.inputY1,
+                        inputX2 = newText,
+                        inputY2 = state.inputY2,
+                        inputX3 = state.inputX3
+                    )
+                )
+            },
+            label = stringResource(R.string.input_label_x2),
+            modifier = Modifier.weight(1f)
+        )
+        DecimalInputField(
+            value = state.inputY2,
             onValueChange = { newText ->
                 onAction(
                     UiAction.InputChange(
                         inputX1 = state.inputX1,
                         inputY1 = state.inputY1,
                         inputX2 = state.inputX2,
-                        inputY2 = state.inputY2,
-                        inputX3 = newText
+                        inputY2 = newText,
+                        inputX3 = state.inputX3
                     )
                 )
             },
-            label = stringResource(R.string.input_label_x3),
-            modifier = Modifier
+            label = stringResource(R.string.input_label_y2),
+            modifier = Modifier.weight(1f)
         )
-        Spacer(Modifier.height(16.dp))
-        CalculateButton(
-            state = state,
-            onAction = onAction
-        )
-        Spacer(Modifier.height(8.dp))
-        Button(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = { onAction(UiAction.Clear) },
-            enabled = true
-        ) {
-            Text(text = stringResource(R.string.clear_fields))
-        }
-        Spacer(Modifier.height(16.dp))
-        Text(text = stringResource(id = R.string.result, state.result))
-        Spacer(Modifier.height(50.dp))
     }
+}
+
+@Composable
+private fun TargetValueSection(
+    state: CalculatorView.State,
+    onAction: (UiAction) -> Unit
+) {
+    SectionHeader(text = "Target Value")
+    DecimalInputField(
+        value = state.inputX3,
+        onValueChange = { newText ->
+            onAction(
+                UiAction.InputChange(
+                    inputX1 = state.inputX1,
+                    inputY1 = state.inputY1,
+                    inputX2 = state.inputX2,
+                    inputY2 = state.inputY2,
+                    inputX3 = newText
+                )
+            )
+        },
+        label = stringResource(R.string.input_label_x3),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+private fun ClearButton(onAction: (UiAction) -> Unit) {
+    OutlinedButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp),
+        onClick = { onAction(UiAction.Clear) },
+        enabled = true
+    ) {
+        Text(text = stringResource(R.string.clear_fields))
+    }
+}
+
+@Composable
+private fun SectionHeader(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleSmall,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.padding(bottom = 8.dp)
+    )
 }
 
 @Composable
@@ -240,7 +287,9 @@ private fun CalculateButton(
 ) {
     when (state.ctaState) {
         CalculatorView.State.CtaState.Disabled -> Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
             onClick = { },
             enabled = false
         ) {
@@ -248,14 +297,18 @@ private fun CalculateButton(
         }
 
         CalculatorView.State.CtaState.Enabled -> Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
             onClick = { onAction(UiAction.Calculate) }
         ) {
             Text(text = stringResource(R.string.calculate))
         }
 
         CalculatorView.State.CtaState.Loading -> Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
             onClick = { },
             enabled = false
         ) {
@@ -271,15 +324,45 @@ private fun DecimalInputField(
     label: String,
     modifier: Modifier
 ) {
-    TextField(
+    OutlinedTextField(
         value = value,
         onValueChange = { newText ->
             onValueChange(newText)
         },
         label = { Text(label) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Decimal,
+            imeAction = ImeAction.Next
+        ),
         modifier = modifier
     )
+}
+
+@Composable
+private fun ResultCard(result: String) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+        ),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.result),
+                style = MaterialTheme.typography.labelMedium
+            )
+            Text(
+                text = result,
+                style = MaterialTheme.typography.displayMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
+    }
 }
 
 @Previews
