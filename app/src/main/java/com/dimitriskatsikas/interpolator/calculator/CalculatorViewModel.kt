@@ -55,13 +55,8 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun onInputChange(action: CalculatorView.UiAction.InputChange) {
-        val areAllFieldsFilled = action.inputX1.isNotEmpty() &&
-                action.inputY1.isNotEmpty() &&
-                action.inputX2.isNotEmpty() &&
-                action.inputY2.isNotEmpty() &&
-                action.inputX3.isNotEmpty()
-
-        val areAllFieldsNumbers = action.inputX1.toBigDecimalOrNull() != null &&
+        //TODO  I press calculate then I repress calculate and the calculation remains the same
+        val areAllFieldsFilledWithNumbers = action.inputX1.toBigDecimalOrNull() != null &&
                 action.inputY1.toBigDecimalOrNull() != null &&
                 action.inputX2.toBigDecimalOrNull() != null &&
                 action.inputY2.toBigDecimalOrNull() != null &&
@@ -74,7 +69,7 @@ class CalculatorViewModel : ViewModel() {
                 inputX2 = action.inputX2,
                 inputY2 = action.inputY2,
                 inputX3 = action.inputX3,
-                ctaState = if (areAllFieldsFilled && areAllFieldsNumbers) {
+                ctaState = if (areAllFieldsFilledWithNumbers) {
                     CalculatorView.State.CtaState.Enabled
                 } else {
                     CalculatorView.State.CtaState.Disabled
@@ -92,27 +87,43 @@ class CalculatorViewModel : ViewModel() {
         inputY2: String,
         inputX3: String
     ) {
-        val x1 = inputX1.toBigDecimal()
-        val y1 = inputY1.toBigDecimal()
-        val x2 = inputX2.toBigDecimal()
-        val y2 = inputY2.toBigDecimal()
-        val x3 = inputX3.toBigDecimal()
+        val x1 = inputX1.toBigDecimalOrNull()
+        val y1 = inputY1.toBigDecimalOrNull()
+        val x2 = inputX2.toBigDecimalOrNull()
+        val y2 = inputY2.toBigDecimalOrNull()
+        val x3 = inputX3.toBigDecimalOrNull()
 
-        if (x1 == x2) {
+        val areAllFieldsFilledWithNumbers = x1 != null &&
+                y1 != null &&
+                x2 != null &&
+                y2 != null &&
+                x3 != null
+
+        if (areAllFieldsFilledWithNumbers) {
+            if (x1 == x2) {
+                _state.update {
+                    it.copy(
+                        result = EMPTY_STRING,
+                        ctaState = CalculatorView.State.CtaState.Enabled,
+                        error = CalculatorView.State.Error.IdenticalXInputs //TODO probably should use effects
+                    )
+                }
+            } else {
+                val result = ((y2 - y1) / (x2 - x1)) * (x3 - x1) + y1
+                _state.update {
+                    it.copy(
+                        result = result.toString(),
+                        ctaState = CalculatorView.State.CtaState.Enabled,
+                        error = null
+                    )
+                }
+            }
+        } else {
             _state.update {
                 it.copy(
                     result = EMPTY_STRING,
-                    ctaState = CalculatorView.State.CtaState.Enabled,
-                    error = CalculatorView.State.Error.IdenticalXInputs
-                )
-            }
-        } else {
-            val result = ((y2 - y1) / (x2 - x1)) * (x3 - x1) + y1
-            _state.update {
-                it.copy(
-                    result = result.toString(),
-                    ctaState = CalculatorView.State.CtaState.Enabled,
-                    error = null
+                    ctaState = CalculatorView.State.CtaState.Disabled,
+                    error = CalculatorView.State.Error.IdenticalXInputs //TODO put another error here and probably should use effects
                 )
             }
         }
