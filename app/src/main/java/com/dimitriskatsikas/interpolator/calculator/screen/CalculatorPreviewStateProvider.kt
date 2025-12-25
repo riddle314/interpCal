@@ -1,6 +1,7 @@
-package com.dimitriskatsikas.interpolator.calculator
+package com.dimitriskatsikas.interpolator.calculator.screen
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.dimitriskatsikas.interpolator.calculator.CalculatorView
 import com.dimitriskatsikas.interpolator.calculator.CalculatorView.State.CtaState
 
 class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.State> {

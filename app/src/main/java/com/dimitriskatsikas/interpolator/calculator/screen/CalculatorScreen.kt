@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.calculator
+package com.dimitriskatsikas.interpolator.calculator.screen
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -10,6 +10,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dimitriskatsikas.interpolator.R
 import com.dimitriskatsikas.interpolator.Route
+import com.dimitriskatsikas.interpolator.calculator.CalculatorView
+import com.dimitriskatsikas.interpolator.calculator.CalculatorViewModel
 
 @Composable
 fun CalculatorScreen(

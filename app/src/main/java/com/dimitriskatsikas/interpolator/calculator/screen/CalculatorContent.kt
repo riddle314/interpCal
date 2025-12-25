@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.calculator
+package com.dimitriskatsikas.interpolator.calculator.screen
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +40,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.dimitriskatsikas.interpolator.R
+import com.dimitriskatsikas.interpolator.calculator.CalculatorView
 import com.dimitriskatsikas.interpolator.calculator.CalculatorView.UiAction
 import com.dimitriskatsikas.interpolator.ui.theme.InterpolatorTheme
 import com.dimitriskatsikas.interpolator.utils.Previews

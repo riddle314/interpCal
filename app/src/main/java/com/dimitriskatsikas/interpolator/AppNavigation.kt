@@ -6,11 +6,10 @@ import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.dimitriskatsikas.interpolator.calculator.CalculatorScreen
 import com.dimitriskatsikas.interpolator.calculator.CalculatorViewModel
-import com.dimitriskatsikas.interpolator.info.InfoScreen
+import com.dimitriskatsikas.interpolator.calculator.screen.CalculatorScreen
 import com.dimitriskatsikas.interpolator.info.InfoViewModel
-import com.dimitriskatsikas.interpolator.info.handleInfoEffect
+import com.dimitriskatsikas.interpolator.info.screen.InfoScreen
 
 @Composable
 fun AppNavigation() {
@@ -30,12 +29,7 @@ fun AppNavigation() {
             entry<Route.Info> {
                 InfoScreen(
                     viewModel = viewModel<InfoViewModel>(),
-                    onEffect = {
-                        handleInfoEffect(
-                            effect = it,
-                            backStack = backStack
-                        )
-                    }
+                    backStack = backStack
                 )
             }
         }
