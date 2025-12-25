@@ -150,7 +150,7 @@ private fun StartPointSection(
     state: CalculatorView.State,
     onAction: (UiAction) -> Unit
 ) {
-    SectionHeader(text = "Start Point (x1, y1)")
+    SectionHeader(text = stringResource(R.string.start_point_header))
     Row(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier.fillMaxWidth()
@@ -195,7 +195,7 @@ private fun EndPointSection(
     state: CalculatorView.State,
     onAction: (UiAction) -> Unit
 ) {
-    SectionHeader(text = "End Point (x2, y2)")
+    SectionHeader(text = stringResource(R.string.end_point_header))
     Row(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier.fillMaxWidth()
@@ -240,7 +240,7 @@ private fun TargetValueSection(
     state: CalculatorView.State,
     onAction: (UiAction) -> Unit
 ) {
-    SectionHeader(text = "Target Value")
+    SectionHeader(text = stringResource(R.string.target_value_header))
     OutlinedTextField(
         value = state.inputX3,
         onValueChange = { newText ->

@@ -41,7 +41,6 @@ class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.S
             inputX3 = "1.5",
             result = "150",
             ctaState = CtaState.Enabled
-        ),
-
+        )
     )
 }

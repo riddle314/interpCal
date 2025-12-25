@@ -12,4 +12,7 @@
     <string name="calculate">Calculate</string>
     <string name="calculating">Calculating…</string>
     <string name="error_identical_x_inputs">Please provide different values for x1 and x2</string>
+    <string name="start_point_header">Start Point (x1, y1)</string>
+    <string name="end_point_header">End Point (x2, y2)</string>
+    <string name="target_value_header">Target Value</string>
 </resources>
