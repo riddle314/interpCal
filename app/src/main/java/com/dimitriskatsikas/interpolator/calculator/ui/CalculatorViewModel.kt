@@ -1,7 +1,10 @@
-package com.dimitriskatsikas.interpolator.calculator
+package com.dimitriskatsikas.interpolator.calculator.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase
+import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase.IdenticalXInputsException
+import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase.NoNumbersInputException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +17,9 @@ import kotlinx.coroutines.launch
 
 private const val EMPTY_STRING = ""
 
-class CalculatorViewModel : ViewModel() {
+class CalculatorViewModel(
+    private val computeLinearInterpolationUseCase: ComputeLinearInterpolationUseCase
+) : ViewModel() {
 
     private val _state = MutableStateFlow(CalculatorView.State())
 
@@ -39,18 +44,32 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun calculate() {
+        //TODO  I press calculate then I repress calculate and the calculation remains the same
         _state.update {
             it.copy(ctaState = CalculatorView.State.CtaState.Loading)
         }
         viewModelScope.launch(Dispatchers.Default) {
             val currentState = _state.value
-            computeLinearInterpolation(
+            computeLinearInterpolationUseCase(
                 inputX1 = currentState.inputX1,
                 inputY1 = currentState.inputY1,
                 inputX2 = currentState.inputX2,
                 inputY2 = currentState.inputY2,
                 inputX3 = currentState.inputX3
-            )
+            ).onSuccess { value ->
+                _state.update {
+                    it.copy(
+                        result = value,
+                        ctaState = CalculatorView.State.CtaState.Enabled
+                    )
+                }
+            }.onFailure { exception ->
+                when (exception) {
+                    is NoNumbersInputException -> handleNoNumbersInputError()
+                    is IdenticalXInputsException -> handleIdenticalXInputsError()
+                    else -> Unit
+                }
+            }
         }
     }
 
@@ -78,64 +97,6 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
-    private suspend fun computeLinearInterpolation(
-        inputX1: String,
-        inputY1: String,
-        inputX2: String,
-        inputY2: String,
-        inputX3: String
-    ) {
-        //TODO  I press calculate then I repress calculate and the calculation remains the same
-        val x1 = inputX1.toBigDecimalOrNull()
-        val y1 = inputY1.toBigDecimalOrNull()
-        val x2 = inputX2.toBigDecimalOrNull()
-        val y2 = inputY2.toBigDecimalOrNull()
-        val x3 = inputX3.toBigDecimalOrNull()
-
-        val areAllFieldsFilledWithNumbers = x1 != null &&
-                y1 != null &&
-                x2 != null &&
-                y2 != null &&
-                x3 != null
-
-        if (areAllFieldsFilledWithNumbers) {
-            if (x1 == x2) {
-                _state.update {
-                    it.copy(
-                        result = EMPTY_STRING,
-                        ctaState = CalculatorView.State.CtaState.Enabled,
-                    )
-                }
-                _effect.trySend(
-                    CalculatorView.Effect.ShowErrorToast(
-                        CalculatorView.ErrorToast.IdenticalXInputs
-                    )
-                )
-            } else {
-                val result =
-                    ((y2 - y1) / (x2 - x1)) * (x3 - x1) + y1 //TODO should I use a repository for the calculations?
-                _state.update {
-                    it.copy(
-                        result = result.toString(),
-                        ctaState = CalculatorView.State.CtaState.Enabled
-                    )
-                }
-            }
-        } else {
-            _state.update {
-                it.copy(
-                    result = EMPTY_STRING,
-                    ctaState = CalculatorView.State.CtaState.Disabled,
-                )
-            }
-            _effect.trySend(
-                CalculatorView.Effect.ShowErrorToast(
-                    CalculatorView.ErrorToast.NoNumbersInput
-                )
-            )
-        }
-    }
-
     private fun clearState() {
         _state.update {
             it.copy(
@@ -148,5 +109,33 @@ class CalculatorViewModel : ViewModel() {
                 ctaState = CalculatorView.State.CtaState.Disabled
             )
         }
+    }
+
+    private fun handleIdenticalXInputsError() {
+        _state.update {
+            it.copy(
+                result = EMPTY_STRING,
+                ctaState = CalculatorView.State.CtaState.Enabled,
+            )
+        }
+        _effect.trySend(
+            CalculatorView.Effect.ShowErrorToast(
+                CalculatorView.ErrorToast.IdenticalXInputs
+            )
+        )
+    }
+
+    private fun handleNoNumbersInputError() {
+        _state.update {
+            it.copy(
+                result = EMPTY_STRING,
+                ctaState = CalculatorView.State.CtaState.Disabled,
+            )
+        }
+        _effect.trySend(
+            CalculatorView.Effect.ShowErrorToast(
+                CalculatorView.ErrorToast.NoNumbersInput
+            )
+        )
     }
 }

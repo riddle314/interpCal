@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.calculator
+package com.dimitriskatsikas.interpolator.calculator.ui
 
 private const val EMPTY_STRING = ""
 
