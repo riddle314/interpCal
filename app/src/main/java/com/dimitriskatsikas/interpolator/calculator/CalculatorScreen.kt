@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -44,6 +45,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dimitriskatsikas.interpolator.R
+import com.dimitriskatsikas.interpolator.Route
 import com.dimitriskatsikas.interpolator.calculator.CalculatorView.UiAction
 import com.dimitriskatsikas.interpolator.ui.theme.InterpolatorTheme
 import com.dimitriskatsikas.interpolator.utils.Previews
@@ -51,27 +53,65 @@ import com.dimitriskatsikas.interpolator.utils.Previews
 @Composable
 fun CalculatorScreen(
     viewModel: CalculatorViewModel,
-    onEffect: (CalculatorView.Effect) -> Unit,
+    backStack: SnapshotStateList<Route>
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-        viewModel.effect.collect { effect -> onEffect(effect) }
-    }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val identicalXInputsErrorMessage = stringResource(id = R.string.error_identical_x_inputs)
+    val noNumbersInputErrorMessage = stringResource(id = R.string.error_no_numbers_input)
 
     CalculatorContent(
         state = state,
+        snackbarHostState = snackbarHostState,
         onAction = viewModel::onUiAction
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { effect ->
+            handleEffect(
+                effect,
+                backStack,
+                snackbarHostState,
+                identicalXInputsErrorMessage,
+                noNumbersInputErrorMessage
+            )
+        }
+    }
+}
+
+private suspend fun handleEffect(
+    effect: CalculatorView.Effect,
+    backStack: SnapshotStateList<Route>,
+    snackbarHostState: SnackbarHostState,
+    identicalXInputsErrorMessage: String,
+    noNumbersInputErrorMessage: String
+) {
+    when (effect) {
+        is CalculatorView.Effect.OpenInfoScreen -> {
+            backStack.add(Route.Info)
+        }
+
+        is CalculatorView.Effect.ShowErrorToast -> {
+            when (effect.errorToast) {
+                CalculatorView.ErrorToast.IdenticalXInputs -> {
+                    snackbarHostState.showSnackbar(identicalXInputsErrorMessage)
+                }
+
+                CalculatorView.ErrorToast.NoNumbersInput -> {
+                    snackbarHostState.showSnackbar(noNumbersInputErrorMessage)
+                }
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CalculatorContent(
     state: CalculatorView.State,
+    snackbarHostState: SnackbarHostState,
     onAction: (UiAction) -> Unit
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -97,17 +137,6 @@ private fun CalculatorContent(
             )
         }
     )
-
-    when (state.error) {
-        CalculatorView.State.Error.IdenticalXInputs -> {
-            val message = stringResource(id = R.string.error_identical_x_inputs)
-            LaunchedEffect(state.error) {
-                snackbarHostState.showSnackbar(message)
-            }
-        }
-
-        null -> Unit
-    }
 }
 
 @Composable
@@ -390,6 +419,7 @@ private fun CalculatorPreview(
     InterpolatorTheme {
         CalculatorContent(
             state = state,
+            snackbarHostState = SnackbarHostState(),
             onAction = {}
         )
     }

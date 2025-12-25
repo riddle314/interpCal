@@ -55,7 +55,6 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun onInputChange(action: CalculatorView.UiAction.InputChange) {
-        //TODO  I press calculate then I repress calculate and the calculation remains the same
         val areAllFieldsFilledWithNumbers = action.inputX1.toBigDecimalOrNull() != null &&
                 action.inputY1.toBigDecimalOrNull() != null &&
                 action.inputX2.toBigDecimalOrNull() != null &&
@@ -74,7 +73,6 @@ class CalculatorViewModel : ViewModel() {
                 } else {
                     CalculatorView.State.CtaState.Disabled
                 },
-                error = null,
                 result = EMPTY_STRING
             )
         }
@@ -87,6 +85,7 @@ class CalculatorViewModel : ViewModel() {
         inputY2: String,
         inputX3: String
     ) {
+        //TODO  I press calculate then I repress calculate and the calculation remains the same
         val x1 = inputX1.toBigDecimalOrNull()
         val y1 = inputY1.toBigDecimalOrNull()
         val x2 = inputX2.toBigDecimalOrNull()
@@ -105,16 +104,20 @@ class CalculatorViewModel : ViewModel() {
                     it.copy(
                         result = EMPTY_STRING,
                         ctaState = CalculatorView.State.CtaState.Enabled,
-                        error = CalculatorView.State.Error.IdenticalXInputs //TODO probably should use effects
                     )
                 }
+                _effect.trySend(
+                    CalculatorView.Effect.ShowErrorToast(
+                        CalculatorView.ErrorToast.IdenticalXInputs
+                    )
+                )
             } else {
-                val result = ((y2 - y1) / (x2 - x1)) * (x3 - x1) + y1
+                val result =
+                    ((y2 - y1) / (x2 - x1)) * (x3 - x1) + y1 //TODO should I use a repository for the calculations?
                 _state.update {
                     it.copy(
                         result = result.toString(),
-                        ctaState = CalculatorView.State.CtaState.Enabled,
-                        error = null
+                        ctaState = CalculatorView.State.CtaState.Enabled
                     )
                 }
             }
@@ -123,9 +126,13 @@ class CalculatorViewModel : ViewModel() {
                 it.copy(
                     result = EMPTY_STRING,
                     ctaState = CalculatorView.State.CtaState.Disabled,
-                    error = CalculatorView.State.Error.IdenticalXInputs //TODO put another error here and probably should use effects
                 )
             }
+            _effect.trySend(
+                CalculatorView.Effect.ShowErrorToast(
+                    CalculatorView.ErrorToast.NoNumbersInput
+                )
+            )
         }
     }
 
@@ -138,8 +145,7 @@ class CalculatorViewModel : ViewModel() {
                 inputY2 = EMPTY_STRING,
                 inputX3 = EMPTY_STRING,
                 result = EMPTY_STRING,
-                ctaState = CalculatorView.State.CtaState.Disabled,
-                error = null
+                ctaState = CalculatorView.State.CtaState.Disabled
             )
         }
     }

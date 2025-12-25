@@ -8,7 +8,6 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.dimitriskatsikas.interpolator.calculator.CalculatorScreen
 import com.dimitriskatsikas.interpolator.calculator.CalculatorViewModel
-import com.dimitriskatsikas.interpolator.calculator.handleCalculatorEffect
 import com.dimitriskatsikas.interpolator.info.InfoScreen
 import com.dimitriskatsikas.interpolator.info.InfoViewModel
 import com.dimitriskatsikas.interpolator.info.handleInfoEffect
@@ -25,12 +24,7 @@ fun AppNavigation() {
             entry<Route.Calculator> {
                 CalculatorScreen(
                     viewModel = viewModel<CalculatorViewModel>(),
-                    onEffect = {
-                        handleCalculatorEffect(
-                            effect = it,
-                            backStack = backStack
-                        )
-                    }
+                    backStack = backStack
                 )
             }
             entry<Route.Info> {

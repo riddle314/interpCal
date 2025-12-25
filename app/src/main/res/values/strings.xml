@@ -15,4 +15,5 @@
     <string name="start_point_header">Start Point (x1, y1)</string>
     <string name="end_point_header">End Point (x2, y2)</string>
     <string name="target_value_header">Target Value</string>
+    <string name="error_no_numbers_input">Please provide number values for all inputs</string>
 </resources>
