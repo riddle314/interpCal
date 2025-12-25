@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -35,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -239,7 +241,7 @@ private fun TargetValueSection(
     onAction: (UiAction) -> Unit
 ) {
     SectionHeader(text = "Target Value")
-    DecimalInputField(
+    OutlinedTextField(
         value = state.inputX3,
         onValueChange = { newText ->
             onAction(
@@ -252,7 +254,19 @@ private fun TargetValueSection(
                 )
             )
         },
-        label = stringResource(R.string.input_label_x3),
+        label = { Text(stringResource(R.string.input_label_x3)) },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Decimal,
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                if (state.ctaState == CalculatorView.State.CtaState.Enabled) {
+                    onAction(UiAction.Calculate)
+                }
+            }
+        ),
         modifier = Modifier.fillMaxWidth()
     )
 }
@@ -348,7 +362,9 @@ private fun ResultCard(result: String) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -359,6 +375,7 @@ private fun ResultCard(result: String) {
                 text = result,
                 style = MaterialTheme.typography.displayMedium,
                 fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Monospace,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
