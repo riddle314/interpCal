@@ -1,12 +1,15 @@
 package com.dimitriskatsikas.interpolator.calculator
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -112,74 +115,88 @@ fun MainContent(
             .padding(paddingValues)
             .padding(horizontal = 16.dp)
             .verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
+//        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(16.dp))
-        Text(text = stringResource(R.string.enter_values))
-        Spacer(Modifier.height(16.dp))
-        DecimalInputField(
-            value = state.inputX1,
-            onValueChange = { newText ->
-                onAction(
-                    UiAction.InputChange(
-                        inputX1 = newText,
-                        inputY1 = state.inputY1,
-                        inputX2 = state.inputX2,
-                        inputY2 = state.inputY2,
-                        inputX3 = state.inputX3
+        Text(text = "Start Point (x1, y1)")
+        Spacer(Modifier.height(8.dp))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            DecimalInputField(
+                value = state.inputX1,
+                onValueChange = { newText ->
+                    onAction(
+                        UiAction.InputChange(
+                            inputX1 = newText,
+                            inputY1 = state.inputY1,
+                            inputX2 = state.inputX2,
+                            inputY2 = state.inputY2,
+                            inputX3 = state.inputX3
+                        )
                     )
-                )
-            },
-            label = stringResource(R.string.input_label_x1)
-        )
-        Spacer(Modifier.height(16.dp))
-        DecimalInputField(
-            value = state.inputY1,
-            onValueChange = { newText ->
-                onAction(
-                    UiAction.InputChange(
-                        inputX1 = state.inputX1,
-                        inputY1 = newText,
-                        inputX2 = state.inputX2,
-                        inputY2 = state.inputY2,
-                        inputX3 = state.inputX3
+                },
+                label = stringResource(R.string.input_label_x1),
+                modifier = Modifier.weight(1f)
+            )
+            DecimalInputField(
+                value = state.inputY1,
+                onValueChange = { newText ->
+                    onAction(
+                        UiAction.InputChange(
+                            inputX1 = state.inputX1,
+                            inputY1 = newText,
+                            inputX2 = state.inputX2,
+                            inputY2 = state.inputY2,
+                            inputX3 = state.inputX3
+                        )
                     )
-                )
-            },
-            label = stringResource(R.string.input_label_y1)
-        )
+                },
+                label = stringResource(R.string.input_label_y1),
+                modifier = Modifier.weight(1f)
+            )
+        }
         Spacer(Modifier.height(16.dp))
-        DecimalInputField(
-            value = state.inputX2,
-            onValueChange = { newText ->
-                onAction(
-                    UiAction.InputChange(
-                        inputX1 = state.inputX1,
-                        inputY1 = state.inputY1,
-                        inputX2 = newText,
-                        inputY2 = state.inputY2,
-                        inputX3 = state.inputX3
+        Text(text = "End Point (x2, y2)")
+        Spacer(Modifier.height(8.dp))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            DecimalInputField(
+                value = state.inputX2,
+                onValueChange = { newText ->
+                    onAction(
+                        UiAction.InputChange(
+                            inputX1 = state.inputX1,
+                            inputY1 = state.inputY1,
+                            inputX2 = newText,
+                            inputY2 = state.inputY2,
+                            inputX3 = state.inputX3
+                        )
                     )
-                )
-            },
-            label = stringResource(R.string.input_label_x2)
-        )
-        Spacer(Modifier.height(16.dp))
-        DecimalInputField(
-            value = state.inputY2,
-            onValueChange = { newText ->
-                onAction(
-                    UiAction.InputChange(
-                        inputX1 = state.inputX1,
-                        inputY1 = state.inputY1,
-                        inputX2 = state.inputX2,
-                        inputY2 = newText,
-                        inputX3 = state.inputX3
+                },
+                label = stringResource(R.string.input_label_x2),
+                modifier = Modifier.weight(1f)
+            )
+            DecimalInputField(
+                value = state.inputY2,
+                onValueChange = { newText ->
+                    onAction(
+                        UiAction.InputChange(
+                            inputX1 = state.inputX1,
+                            inputY1 = state.inputY1,
+                            inputX2 = state.inputX2,
+                            inputY2 = newText,
+                            inputX3 = state.inputX3
+                        )
                     )
-                )
-            },
-            label = stringResource(R.string.input_label_y2)
-        )
+                },
+                label = stringResource(R.string.input_label_y2),
+                modifier = Modifier.weight(1f)
+            )
+        }
         Spacer(Modifier.height(16.dp))
         DecimalInputField(
             value = state.inputX3,
@@ -194,7 +211,8 @@ fun MainContent(
                     )
                 )
             },
-            label = stringResource(R.string.input_label_x3)
+            label = stringResource(R.string.input_label_x3),
+            modifier = Modifier
         )
         Spacer(Modifier.height(16.dp))
         CalculateButton(
@@ -211,7 +229,7 @@ fun MainContent(
         }
         Spacer(Modifier.height(16.dp))
         Text(text = stringResource(id = R.string.result, state.result))
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(50.dp))
     }
 }
 
@@ -250,7 +268,8 @@ private fun CalculateButton(
 private fun DecimalInputField(
     value: String,
     onValueChange: (String) -> Unit,
-    label: String
+    label: String,
+    modifier: Modifier
 ) {
     TextField(
         value = value,
@@ -258,7 +277,8 @@ private fun DecimalInputField(
             onValueChange(newText)
         },
         label = { Text(label) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = modifier
     )
 }
 
