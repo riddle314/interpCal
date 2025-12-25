@@ -51,14 +51,14 @@ import com.dimitriskatsikas.interpolator.utils.Previews
 fun CalculatorContent(
     state: CalculatorView.State,
     snackbarHostState: SnackbarHostState,
-    onAction: (CalculatorView.UiAction) -> Unit
+    onAction: (UiAction) -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.header_title)) },
                 actions = {
-                    IconButton(onClick = { onAction(CalculatorView.UiAction.OpenInfoScreen) }) {
+                    IconButton(onClick = { onAction(UiAction.OpenInfoScreen) }) {
                         Icon(
                             imageVector = Icons.Outlined.Info,
                             contentDescription = stringResource(
@@ -84,7 +84,7 @@ fun CalculatorContent(
 fun MainContent(
     state: CalculatorView.State,
     paddingValues: PaddingValues,
-    onAction: (CalculatorView.UiAction) -> Unit,
+    onAction: (UiAction) -> Unit,
     scrollState: ScrollState = rememberScrollState()
 ) {
     Column(
@@ -118,7 +118,7 @@ fun MainContent(
 @Composable
 private fun StartPointSection(
     state: CalculatorView.State,
-    onAction: (CalculatorView.UiAction) -> Unit
+    onAction: (UiAction) -> Unit
 ) {
     SectionHeader(text = stringResource(R.string.start_point_header))
     Row(
@@ -163,7 +163,7 @@ private fun StartPointSection(
 @Composable
 private fun EndPointSection(
     state: CalculatorView.State,
-    onAction: (CalculatorView.UiAction) -> Unit
+    onAction: (UiAction) -> Unit
 ) {
     SectionHeader(text = stringResource(R.string.end_point_header))
     Row(
@@ -208,14 +208,14 @@ private fun EndPointSection(
 @Composable
 private fun TargetValueSection(
     state: CalculatorView.State,
-    onAction: (CalculatorView.UiAction) -> Unit
+    onAction: (UiAction) -> Unit
 ) {
     SectionHeader(text = stringResource(R.string.target_value_header))
     OutlinedTextField(
         value = state.inputX3,
         onValueChange = { newText ->
             onAction(
-                CalculatorView.UiAction.InputChange(
+                UiAction.InputChange(
                     inputX1 = state.inputX1,
                     inputY1 = state.inputY1,
                     inputX2 = state.inputX2,
@@ -233,7 +233,7 @@ private fun TargetValueSection(
         keyboardActions = KeyboardActions(
             onDone = {
                 if (state.ctaState == CalculatorView.State.CtaState.Enabled) {
-                    onAction(CalculatorView.UiAction.Calculate)
+                    onAction(UiAction.Calculate)
                 }
             }
         ),
@@ -242,12 +242,12 @@ private fun TargetValueSection(
 }
 
 @Composable
-private fun ClearButton(onAction: (CalculatorView.UiAction) -> Unit) {
+private fun ClearButton(onAction: (UiAction) -> Unit) {
     OutlinedButton(
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp),
-        onClick = { onAction(CalculatorView.UiAction.Clear) },
+        onClick = { onAction(UiAction.Clear) },
         enabled = true
     ) {
         Text(text = stringResource(R.string.clear_fields))
@@ -267,7 +267,7 @@ private fun SectionHeader(text: String) {
 @Composable
 private fun CalculateButton(
     state: CalculatorView.State,
-    onAction: (CalculatorView.UiAction) -> Unit
+    onAction: (UiAction) -> Unit
 ) {
     when (state.ctaState) {
         CalculatorView.State.CtaState.Disabled -> Button(
@@ -284,7 +284,7 @@ private fun CalculateButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            onClick = { onAction(CalculatorView.UiAction.Calculate) }
+            onClick = { onAction(UiAction.Calculate) }
         ) {
             Text(text = stringResource(R.string.calculate))
         }
