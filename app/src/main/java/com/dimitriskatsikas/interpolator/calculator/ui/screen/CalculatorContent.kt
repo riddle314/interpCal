@@ -56,7 +56,7 @@ fun CalculatorContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.calculator_screen_title)) },
+                title = { Text(stringResource(R.string.full_app_name)) },
                 actions = {
                     IconButton(onClick = { onAction(UiAction.OpenInfoScreen) }) {
                         Icon(
