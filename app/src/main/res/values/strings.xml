@@ -2,6 +2,7 @@
     <string name="app_name">Interpolator</string>
     <string name="full_app_name">Interpolator Calculator</string>
     <string name="info_icon_content_description">Info</string>
+    <string name="back_icon_content_description">Back</string>
     <string name="input_label_x1">x1</string>
     <string name="input_label_y1">y1</string>
     <string name="input_label_x2">x2</string>
@@ -19,7 +20,6 @@
     <string name="info_screen_title">Info</string>
     <string name="info_app_name_title">App Name</string>
     <string name="info_version_title">Version</string>
-    <string name="info_version_subtitle">1.0</string>
     <string name="info_creator_title">Creator</string>
     <string name="creator_name">Dimitris Katsikas</string>
 </resources>

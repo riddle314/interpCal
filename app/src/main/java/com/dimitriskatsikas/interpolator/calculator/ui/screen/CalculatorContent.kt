@@ -53,6 +53,7 @@ fun CalculatorContent(
     snackbarHostState: SnackbarHostState,
     onAction: (UiAction) -> Unit
 ) {
+    // TODO should I elevate toolbar when I scroll? And should I do the same for Info Screen
     Scaffold(
         topBar = {
             TopAppBar(

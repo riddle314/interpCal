@@ -25,6 +25,7 @@ fun AppNavigation() {
         entryProvider = entryProvider {
             entry<Route.Calculator> {
 
+                // TODO add Hilt for dependency injection
                 val calculatorViewModelFactory = object : ViewModelProvider.Factory {
                     override fun <T : ViewModel> create(modelClass: Class<T>): T {
                         if (modelClass.isAssignableFrom(CalculatorViewModel::class.java)) {

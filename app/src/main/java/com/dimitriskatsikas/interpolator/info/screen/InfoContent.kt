@@ -27,7 +27,10 @@ import com.dimitriskatsikas.interpolator.utils.Previews
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InfoContent(onAction: (InfoView.UiAction) -> Unit) {
+fun InfoContent(
+    state: InfoView.State,
+    onAction: (InfoView.UiAction) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -37,7 +40,7 @@ fun InfoContent(onAction: (InfoView.UiAction) -> Unit) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
                             contentDescription = stringResource(
-                                R.string.info_icon_content_description
+                                R.string.back_icon_content_description
                             )
                         )
                     }
@@ -46,7 +49,8 @@ fun InfoContent(onAction: (InfoView.UiAction) -> Unit) {
         },
         content = { paddingValues ->
             Content(
-                paddingValues = paddingValues
+                paddingValues = paddingValues,
+                state = state
             )
         }
     )
@@ -55,6 +59,7 @@ fun InfoContent(onAction: (InfoView.UiAction) -> Unit) {
 @Composable
 private fun Content(
     paddingValues: PaddingValues,
+    state: InfoView.State,
     scrollState: ScrollState = rememberScrollState()
 ) {
     Column(
@@ -69,7 +74,7 @@ private fun Content(
         )
         InfoItem(
             title = stringResource(R.string.info_version_title),
-            subtitle = stringResource(R.string.info_version_subtitle)
+            subtitle = state.versionName
         )
         InfoItem(
             title = stringResource(R.string.info_creator_title),
@@ -98,6 +103,7 @@ private fun InfoItem(title: String, subtitle: String) {
 private fun InfoContentPreview() {
     InterpolatorTheme {
         InfoContent(
+            state = InfoView.State(versionName = "1.0"),
             onAction = {}
         )
     }
