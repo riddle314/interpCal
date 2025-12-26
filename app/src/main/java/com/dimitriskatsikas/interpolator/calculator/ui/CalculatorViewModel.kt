@@ -1,6 +1,7 @@
 package com.dimitriskatsikas.interpolator.calculator.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase
 import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase.IdenticalXInputsException
@@ -137,5 +138,18 @@ class CalculatorViewModel(
                 CalculatorView.ErrorToast.NoNumbersInput
             )
         )
+    }
+}
+
+// TODO add Hilt for dependency injection
+class CalculatorViewModelFactory(
+    val computeLinearInterpolationUseCase: ComputeLinearInterpolationUseCase
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(CalculatorViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return CalculatorViewModel(computeLinearInterpolationUseCase) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
