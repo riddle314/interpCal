@@ -32,6 +32,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -211,6 +212,7 @@ private fun TargetValueSection(
     state: CalculatorView.State,
     onAction: (UiAction) -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     SectionHeader(text = stringResource(R.string.target_value_header))
     OutlinedTextField(
         value = state.inputX3,
@@ -236,6 +238,7 @@ private fun TargetValueSection(
                 if (state.ctaState == CalculatorView.State.CtaState.Enabled) {
                     onAction(UiAction.Calculate)
                 }
+                keyboardController?.hide()
             }
         ),
         modifier = Modifier.fillMaxWidth()
