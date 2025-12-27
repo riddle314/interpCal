@@ -26,7 +26,11 @@ class ComputeLinearInterpolationUseCase {
             if (x1 == x2) {
                 return Result.failure(IdenticalXInputsException())
             } else {
-                val y3 = ((y2 - y1) / (x2 - x1)) * (x3 - x1) + y1
+                val substractionY2Y1 = y2 - y1
+                val substractionX2X1 = x2 - x1
+                val substractionX3X1 = x3 - x1
+                val slope = substractionY2Y1.divide(substractionX2X1)
+                val y3 = slope * substractionX3X1 + y1
                 return Result.success(y3.toString())
             }
         } else {

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class CalculatorViewModelTest {
-
     private var computeLinearInterpolationUseCase: ComputeLinearInterpolationUseCase =
         ComputeLinearInterpolationUseCase()
     private lateinit var testClass: CalculatorViewModel
@@ -61,6 +60,46 @@ class CalculatorViewModelTest {
                     ctaState = CtaState.Enabled
                 )
                 Assertions.assertEquals(expected, awaitItem())
+            }
+        }
+
+    @Test
+    fun `given inputs all filled with numbers and UiAction is Calculate, when UiAction is InputChange for different numbers and UiAction is Calculate, then the state is updated correctly`() =
+        runTest {
+            testClass.onUiAction(
+                CalculatorView.UiAction.InputChange(
+                    inputX1 = "1",
+                    inputY1 = "100",
+                    inputX2 = "2",
+                    inputY2 = "200",
+                    inputX3 = "1.5"
+                )
+            )
+            testClass.onUiAction(CalculatorView.UiAction.Calculate)
+            testClass.onUiAction(
+                CalculatorView.UiAction.InputChange(
+                    inputX1 = "2",
+                    inputY1 = "400",
+                    inputX2 = "4",
+                    inputY2 = "800",
+                    inputX3 = "2.5"
+                )
+            )
+            testClass.onUiAction(CalculatorView.UiAction.Calculate)
+
+            testClass.state.test {
+                Assertions.assertEquals(CalculatorView.State(), awaitItem())
+                Assertions.assertEquals(
+                    CalculatorView.State(
+                        inputX1 = "2",
+                        inputY1 = "400",
+                        inputX2 = "4",
+                        inputY2 = "800",
+                        inputX3 = "2.5",
+                        result = "500.0",
+                        ctaState = CtaState.Enabled
+                    ), awaitItem()
+                )
             }
         }
 

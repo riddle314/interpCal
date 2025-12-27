@@ -45,9 +45,11 @@ class CalculatorViewModel(
     }
 
     private fun calculate() {
-        //TODO  I press calculate then I repress calculate and the calculation remains the same
         _state.update {
-            it.copy(ctaState = CalculatorView.State.CtaState.Loading)
+            it.copy(
+                result = EMPTY_STRING,
+                ctaState = CalculatorView.State.CtaState.Loading
+            )
         }
         viewModelScope.launch(Dispatchers.Default) {
             val currentState = _state.value
