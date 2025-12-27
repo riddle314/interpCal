@@ -1,6 +1,5 @@
 package com.dimitriskatsikas.interpolator.calculator.ui.screen
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,9 +28,11 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -54,8 +55,9 @@ fun CalculatorContent(
     snackbarHostState: SnackbarHostState,
     onAction: (UiAction) -> Unit
 ) {
-    // TODO should I elevate toolbar when I scroll? And should I do the same for Info Screen
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.full_app_name)) },
@@ -68,7 +70,8 @@ fun CalculatorContent(
                             )
                         )
                     }
-                }
+                },
+                scrollBehavior = scrollBehavior
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -86,9 +89,9 @@ fun CalculatorContent(
 fun MainContent(
     state: CalculatorView.State,
     paddingValues: PaddingValues,
-    onAction: (UiAction) -> Unit,
-    scrollState: ScrollState = rememberScrollState()
+    onAction: (UiAction) -> Unit
 ) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .padding(paddingValues)
