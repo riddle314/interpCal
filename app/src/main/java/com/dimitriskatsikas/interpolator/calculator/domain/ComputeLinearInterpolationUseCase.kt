@@ -2,6 +2,7 @@ package com.dimitriskatsikas.interpolator.calculator.domain
 
 import java.math.BigDecimal
 import java.math.MathContext
+import java.math.RoundingMode
 import javax.inject.Inject
 
 class ComputeLinearInterpolationUseCase @Inject constructor() {
@@ -53,7 +54,7 @@ class ComputeLinearInterpolationUseCase @Inject constructor() {
                     p2 = Point(x = x2, y = y2),
                     x3 = x3
                 )
-                return Result.success(y3.toPlainString())
+                return Result.success(formatBigDecimal(y3))
             } catch (e: IdenticalXInputsException) {
                 return Result.failure(e)
             }
@@ -61,6 +62,20 @@ class ComputeLinearInterpolationUseCase @Inject constructor() {
             return Result.failure(NoNumbersInputException())
         }
     }
+
+    /**
+     * This format ensures:
+     * - Maximum 8 decimal places and rounding
+     * - Removes trailing zeros (e.g., 5.5000 -> 5.5)
+     * - Get a plain string representation without scientific notation (e.g., 1.2E7)
+     *
+     * @param value The value to format
+     * @return The formatted string
+     */
+    private fun formatBigDecimal(value: BigDecimal): String = value
+        .setScale(8, RoundingMode.HALF_UP)
+        .stripTrailingZeros()
+        .toPlainString()
 
     /**
      * Computes the linear interpolation for a given set of points.

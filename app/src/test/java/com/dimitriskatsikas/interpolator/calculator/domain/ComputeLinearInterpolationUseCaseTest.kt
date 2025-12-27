@@ -30,7 +30,7 @@ class ComputeLinearInterpolationUseCaseTest {
         )
 
         Assertions.assertTrue(result.isSuccess)
-        Assertions.assertEquals("150.0", result.getOrNull())
+        Assertions.assertEquals("150", result.getOrNull())
     }
 
     @Test
@@ -107,7 +107,7 @@ class ComputeLinearInterpolationUseCaseTest {
 
         Assertions.assertTrue(result.isSuccess)
         Assertions.assertEquals(
-            "6.4285714285714285714285714285714286",
+            "6.42857143",
             result.getOrNull()
         )
     }
