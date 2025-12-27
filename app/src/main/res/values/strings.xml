@@ -22,4 +22,6 @@
     <string name="info_version_title">Version</string>
     <string name="info_creator_title">Creator</string>
     <string name="creator_name">Dimitris Katsikas</string>
+    <string name="result_copied_toast_message">Result copied!</string>
+    <string name="copied_result_label">Copied Result</string>
 </resources>

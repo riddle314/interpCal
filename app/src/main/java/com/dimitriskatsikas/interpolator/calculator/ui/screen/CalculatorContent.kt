@@ -1,5 +1,11 @@
 package com.dimitriskatsikas.interpolator.calculator.ui.screen
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.os.Build
+import android.widget.Toast
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,10 +35,13 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -331,12 +340,36 @@ private fun DecimalInputField(
 }
 
 @Composable
-private fun ResultCard(result: String) {
+private fun ResultCard(
+    result: String
+) {
+    val context = LocalContext.current
+    val clipboardManager = context.getSystemService(ClipboardManager::class.java)
+    val interactionSource = remember { MutableInteractionSource() }
+    val toastMessage = stringResource(id = R.string.result_copied_toast_message)
+    val resultLabel = stringResource(id = R.string.copied_result_label)
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
         ),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple(),
+                onClick = {
+                    val clip = ClipData.newPlainText(resultLabel, result)
+                    clipboardManager?.setPrimaryClip(clip)
+
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                        Toast.makeText(
+                            context,
+                            toastMessage,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            )
     ) {
         Column(
             modifier = Modifier
