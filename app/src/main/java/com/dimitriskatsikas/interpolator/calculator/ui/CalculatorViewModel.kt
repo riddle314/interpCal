@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val EMPTY_STRING = ""
 
@@ -51,15 +52,19 @@ class CalculatorViewModel(
                 ctaState = CalculatorView.State.CtaState.Loading
             )
         }
-        viewModelScope.launch(Dispatchers.Default) {
-            val currentState = _state.value
-            computeLinearInterpolationUseCase(
-                inputX1 = currentState.inputX1,
-                inputY1 = currentState.inputY1,
-                inputX2 = currentState.inputX2,
-                inputY2 = currentState.inputY2,
-                inputX3 = currentState.inputX3
-            ).onSuccess { value ->
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.Default) {
+                val currentState = _state.value
+                computeLinearInterpolationUseCase(
+                    inputX1 = currentState.inputX1,
+                    inputY1 = currentState.inputY1,
+                    inputX2 = currentState.inputX2,
+                    inputY2 = currentState.inputY2,
+                    inputX3 = currentState.inputX3
+                )
+            }
+
+            result.onSuccess { value ->
                 _state.update {
                     it.copy(
                         result = value,

@@ -15,7 +15,7 @@ class ComputeLinearInterpolationUseCaseTest {
     }
 
     @Test
-    fun `given numbers case 1, when invoke, then return successful result`() = runTest {
+    fun `given numbers case 1, when invoke, then return successful result`() {
         val inputX1 = "1"
         val inputY1 = "100"
         val inputX2 = "2"
@@ -35,7 +35,7 @@ class ComputeLinearInterpolationUseCaseTest {
     }
 
     @Test
-    fun `given numbers case 2, when invoke, then return successful result`() = runTest {
+    fun `given numbers case 2, when invoke, then return successful result`() {
         val inputX1 = "2"
         val inputY1 = "6"
         val inputX2 = "6"
@@ -51,11 +51,31 @@ class ComputeLinearInterpolationUseCaseTest {
         )
 
         Assertions.assertTrue(result.isSuccess)
-        Assertions.assertEquals("5.0", result.getOrNull())
+        Assertions.assertEquals("5", result.getOrNull())
     }
 
     @Test
-    fun `given identical x inputs, when invoke, then return failure`() = runTest {
+    fun `given numbers case 3, when invoke, then return successful result`() {
+        val inputX1 = "2"
+        val inputY1 = "6"
+        val inputX2 = "9"
+        val inputY2 = "9"
+        val inputX3 = "9"
+
+        val result = testClass(
+            inputX1 = inputX1,
+            inputY1 = inputY1,
+            inputX2 = inputX2,
+            inputY2 = inputY2,
+            inputX3 = inputX3
+        )
+
+        Assertions.assertTrue(result.isSuccess)
+        Assertions.assertEquals("9", result.getOrNull())
+    }
+
+    @Test
+    fun `given identical x inputs, when invoke, then return failure`() {
         val inputX1 = "1"
         val inputY1 = "100"
         val inputX2 = "1"
@@ -77,7 +97,7 @@ class ComputeLinearInterpolationUseCaseTest {
     }
 
     @Test
-    fun `given no numbers input, when invoke, then return failure`() = runTest {
+    fun `given no numbers input, when invoke, then return failure`() {
         val inputX1 = "1"
         val inputY1 = ""
         val inputX2 = "1"
