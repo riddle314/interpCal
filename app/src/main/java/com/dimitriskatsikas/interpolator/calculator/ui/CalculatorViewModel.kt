@@ -1,11 +1,12 @@
 package com.dimitriskatsikas.interpolator.calculator.ui
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase
 import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase.IdenticalXInputsException
 import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase.NoNumbersInputException
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +20,8 @@ import kotlinx.coroutines.withContext
 
 private const val EMPTY_STRING = ""
 
-class CalculatorViewModel(
+@HiltViewModel
+class CalculatorViewModel @Inject constructor(
     private val computeLinearInterpolationUseCase: ComputeLinearInterpolationUseCase
 ) : ViewModel() {
 
@@ -145,18 +147,5 @@ class CalculatorViewModel(
                 CalculatorView.ErrorType.NoNumbersInput
             )
         )
-    }
-}
-
-// TODO add Hilt for dependency injection
-class CalculatorViewModelFactory(
-    val computeLinearInterpolationUseCase: ComputeLinearInterpolationUseCase
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CalculatorViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return CalculatorViewModel(computeLinearInterpolationUseCase) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

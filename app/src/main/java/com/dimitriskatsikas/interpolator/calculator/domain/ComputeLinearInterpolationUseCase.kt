@@ -2,8 +2,9 @@ package com.dimitriskatsikas.interpolator.calculator.domain
 
 import java.math.BigDecimal
 import java.math.MathContext
+import javax.inject.Inject
 
-class ComputeLinearInterpolationUseCase {
+class ComputeLinearInterpolationUseCase @Inject constructor() {
 
     /**
      * Computes the linear interpolation for a given set of points.
