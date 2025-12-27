@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -103,9 +105,9 @@ fun MainContent(
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
+            .verticalScroll(scrollState)
             .padding(paddingValues)
             .padding(horizontal = 16.dp)
-            .verticalScroll(scrollState),
     ) {
         Spacer(Modifier.height(24.dp))
         StartPointSection(state, onAction)
@@ -285,11 +287,13 @@ private fun CalculateButton(
     state: CalculatorView.State,
     onAction: (UiAction) -> Unit
 ) {
+    val buttonHeight = 50.dp
+    val keyboardController = LocalSoftwareKeyboardController.current
     when (state.ctaState) {
         CalculatorView.State.CtaState.Disabled -> Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
+                .height(buttonHeight),
             onClick = { },
             enabled = false
         ) {
@@ -299,8 +303,11 @@ private fun CalculateButton(
         CalculatorView.State.CtaState.Enabled -> Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
-            onClick = { onAction(UiAction.Calculate) }
+                .height(buttonHeight),
+            onClick = {
+                keyboardController?.hide()
+                onAction(UiAction.Calculate)
+            }
         ) {
             Text(text = stringResource(R.string.calculate))
         }
@@ -308,11 +315,14 @@ private fun CalculateButton(
         CalculatorView.State.CtaState.Loading -> Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
-            onClick = { },
-            enabled = false
+                .height(buttonHeight),
+            onClick = { }
         ) {
-            Text(text = stringResource(R.string.calculating))
+            CircularProgressIndicator(
+                modifier = Modifier.size(24.dp),
+                color = MaterialTheme.colorScheme.onPrimary,
+                strokeWidth = 3.dp
+            )
         }
     }
 }
