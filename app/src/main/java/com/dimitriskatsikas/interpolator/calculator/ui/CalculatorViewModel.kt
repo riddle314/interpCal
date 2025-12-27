@@ -128,7 +128,7 @@ class CalculatorViewModel(
         }
         _effect.trySend(
             CalculatorView.Effect.ShowErrorToast(
-                CalculatorView.ErrorToast.IdenticalXInputs
+                CalculatorView.ErrorType.IdenticalXInputs
             )
         )
     }
@@ -142,7 +142,7 @@ class CalculatorViewModel(
         }
         _effect.trySend(
             CalculatorView.Effect.ShowErrorToast(
-                CalculatorView.ErrorToast.NoNumbersInput
+                CalculatorView.ErrorType.NoNumbersInput
             )
         )
     }

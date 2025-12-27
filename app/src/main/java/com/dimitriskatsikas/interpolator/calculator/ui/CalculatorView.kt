@@ -38,11 +38,11 @@ object CalculatorView {
 
     sealed interface Effect {
         data object OpenInfoScreen : Effect
-        data class ShowErrorToast(val errorToast : ErrorToast) : Effect
+        data class ShowErrorToast(val errorType : ErrorType) : Effect
     }
 
-    sealed interface ErrorToast {
-        data object IdenticalXInputs : ErrorToast
-        data object NoNumbersInput : ErrorToast
+    sealed interface ErrorType {
+        data object IdenticalXInputs : ErrorType
+        data object NoNumbersInput : ErrorType
     }
 }

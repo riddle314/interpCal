@@ -55,12 +55,12 @@ private suspend fun handleEffect(
         }
 
         is CalculatorView.Effect.ShowErrorToast -> {
-            when (effect.errorToast) {
-                CalculatorView.ErrorToast.IdenticalXInputs -> {
+            when (effect.errorType) {
+                CalculatorView.ErrorType.IdenticalXInputs -> {
                     snackbarHostState.showSnackbar(identicalXInputsErrorMessage)
                 }
 
-                CalculatorView.ErrorToast.NoNumbersInput -> {
+                CalculatorView.ErrorType.NoNumbersInput -> {
                     snackbarHostState.showSnackbar(noNumbersInputErrorMessage)
                 }
             }

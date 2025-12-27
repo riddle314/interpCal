@@ -140,7 +140,7 @@ class CalculatorViewModelTest {
             testClass.effect.test {
                 Assertions.assertEquals(
                     CalculatorView.Effect.ShowErrorToast(
-                        CalculatorView.ErrorToast.NoNumbersInput
+                        CalculatorView.ErrorType.NoNumbersInput
                     ),
                     awaitItem()
                 )
@@ -185,7 +185,7 @@ class CalculatorViewModelTest {
             testClass.effect.test {
                 Assertions.assertEquals(
                     CalculatorView.Effect.ShowErrorToast(
-                        CalculatorView.ErrorToast.IdenticalXInputs
+                        CalculatorView.ErrorType.IdenticalXInputs
                     ),
                     awaitItem()
                 )
