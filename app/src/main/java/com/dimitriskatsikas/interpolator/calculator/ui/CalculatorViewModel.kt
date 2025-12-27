@@ -6,7 +6,6 @@ import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpol
 import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase.IdenticalXInputsException
 import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase.NoNumbersInputException
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -17,6 +16,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 private const val EMPTY_STRING = ""
 

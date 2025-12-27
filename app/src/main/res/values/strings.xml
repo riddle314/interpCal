@@ -9,7 +9,8 @@
     <string name="input_label_y2">y2</string>
     <string name="input_label_x3">Target x</string>
     <string name="clear_fields">Clear fields</string>
-    <string name="result">Result (y)</string>
+    <string name="result_y">Result (y)</string>
+    <string name="tap_to_copy_label">Tap to copy</string>
     <string name="calculate">Calculate</string>
     <string name="error_identical_x_inputs">Please provide different values for x1 and x2</string>
     <string name="start_point_header">Start Point (x1, y1)</string>
