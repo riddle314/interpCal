@@ -40,11 +40,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            manifestPlaceholders["ADMOB_APP_ID"] = "YOUR_REAL_ADMOB_APP_ID"
+            manifestPlaceholders["ADMOB_APP_ID"] = "***REMOVED***"
             buildConfigField(
                 type = "String",
                 name = "BANNER_AD_UNIT_ID",
-                value = "\"YOUR_REAL_AD_UNIT_ID\""
+                value = "\"***REMOVED***\""
             )
         }
     }
