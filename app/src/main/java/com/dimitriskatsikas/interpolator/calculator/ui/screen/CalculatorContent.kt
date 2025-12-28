@@ -39,7 +39,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -101,14 +100,11 @@ fun CalculatorContent(
             )
         },
         bottomBar = {
-            Surface(
-                tonalElevation = 2.dp,
-                modifier = Modifier
-                    .padding(WindowInsets.navigationBars.asPaddingValues())
-                    .fillMaxWidth()
-            ) {
-                AdBanner()
-            }
+            AdBanner(
+                modifier = Modifier.padding(
+                    WindowInsets.navigationBars.asPaddingValues()
+                )
+            )
         }
     )
 }
@@ -122,8 +118,8 @@ fun MainContent(
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
-            .verticalScroll(scrollState)
             .padding(paddingValues)
+            .verticalScroll(scrollState)
             .padding(horizontal = 16.dp)
     ) {
         Spacer(Modifier.height(24.dp))
@@ -143,7 +139,7 @@ fun MainContent(
         )
         Spacer(Modifier.height(12.dp))
         ClearButton(onAction)
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(24.dp))
     }
 }
 

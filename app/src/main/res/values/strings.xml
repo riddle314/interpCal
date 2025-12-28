@@ -24,4 +24,5 @@
     <string name="creator_name">Dimitris Katsikas</string>
     <string name="result_copied_toast_message">Result copied!</string>
     <string name="copied_result_label">Copied Result</string>
+    <string name="ad_banner_preview_text" translatable="false">Google Mobile Ads preview banner.</string>
 </resources>
