@@ -26,11 +26,25 @@ android {
     }
 
     buildTypes {
+        debug {
+            manifestPlaceholders["ADMOB_APP_ID"] = "ca-app-pub-3940256099942544~3347511713"
+            buildConfigField(
+                type = "String",
+                name = "BANNER_AD_UNIT_ID",
+                value = "\"ca-app-pub-3940256099942544/6300978111\""
+            )
+        }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
+            )
+            manifestPlaceholders["ADMOB_APP_ID"] = "YOUR_REAL_ADMOB_APP_ID"
+            buildConfigField(
+                type = "String",
+                name = "BANNER_AD_UNIT_ID",
+                value = "\"YOUR_REAL_AD_UNIT_ID\""
             )
         }
     }
@@ -72,6 +86,7 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.kotlinx.serialization.core)
+    implementation(libs.play.services.ads)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)

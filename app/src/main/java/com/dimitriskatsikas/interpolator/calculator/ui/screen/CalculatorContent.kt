@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -36,6 +39,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -95,6 +99,16 @@ fun CalculatorContent(
                 paddingValues = paddingValues,
                 onAction = onAction
             )
+        },
+        bottomBar = {
+            Surface(
+                tonalElevation = 2.dp,
+                modifier = Modifier
+                    .padding(WindowInsets.navigationBars.asPaddingValues())
+                    .fillMaxWidth()
+            ) {
+                AdBanner()
+            }
         }
     )
 }
@@ -129,8 +143,7 @@ fun MainContent(
         )
         Spacer(Modifier.height(12.dp))
         ClearButton(onAction)
-        Spacer(Modifier.weight(1f))
-        Spacer(Modifier.height(50.dp))
+        Spacer(Modifier.height(16.dp))
     }
 }
 
