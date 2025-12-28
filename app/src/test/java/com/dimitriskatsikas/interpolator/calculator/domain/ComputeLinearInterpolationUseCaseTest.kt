@@ -130,7 +130,7 @@ class ComputeLinearInterpolationUseCaseTest {
 
         Assertions.assertTrue(result.isFailure)
         Assertions.assertTrue(
-            result.exceptionOrNull() is ComputeLinearInterpolationUseCase.IdenticalXInputsException
+            result.exceptionOrNull() is IdenticalXInputsException
         )
     }
 
@@ -152,7 +152,7 @@ class ComputeLinearInterpolationUseCaseTest {
 
         Assertions.assertTrue(result.isFailure)
         Assertions.assertTrue(
-            result.exceptionOrNull() is ComputeLinearInterpolationUseCase.NoNumbersInputException
+            result.exceptionOrNull() is NoNumbersInputException
         )
     }
 

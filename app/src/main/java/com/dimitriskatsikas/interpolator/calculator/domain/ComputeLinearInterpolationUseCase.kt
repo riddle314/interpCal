@@ -36,30 +36,29 @@ class ComputeLinearInterpolationUseCase @Inject constructor() {
         inputY2: String,
         inputX3: String
     ): Result<String> {
-        val x1 = inputX1.toBigDecimalOrNull()
-        val y1 = inputY1.toBigDecimalOrNull()
-        val x2 = inputX2.toBigDecimalOrNull()
-        val y2 = inputY2.toBigDecimalOrNull()
-        val x3 = inputX3.toBigDecimalOrNull()
+        return runCatching {
+            val p1 = Point(
+                x = inputX1.toBigDecimalOrThrow(),
+                y = inputY1.toBigDecimalOrThrow()
+            )
+            val p2 = Point(
+                x = inputX2.toBigDecimalOrThrow(),
+                y = inputY2.toBigDecimalOrThrow()
+            )
+            val x3 = inputX3.toBigDecimalOrThrow()
 
-        if (x1 != null &&
-            y1 != null &&
-            x2 != null &&
-            y2 != null &&
-            x3 != null
-        ) {
-            try {
-                val y3 = calculate(
-                    p1 = Point(x = x1, y = y1),
-                    p2 = Point(x = x2, y = y2),
-                    x3 = x3
-                )
-                return Result.success(formatBigDecimal(y3))
-            } catch (e: IdenticalXInputsException) {
-                return Result.failure(e)
+            val y3 = calculate(
+                p1 = p1,
+                p2 = p2,
+                x3 = x3
+            )
+            formatBigDecimal(y3)
+        }.recoverCatching {
+            when (it) {
+                is NoNumbersInputException -> throw it
+                is IdenticalXInputsException -> throw it
+                else -> throw it
             }
-        } else {
-            return Result.failure(NoNumbersInputException())
         }
     }
 
@@ -100,14 +99,18 @@ class ComputeLinearInterpolationUseCase @Inject constructor() {
         val y3 = p1.y + divisionResult
         return y3
     }
-
-    private data class Point(val x: BigDecimal, val y: BigDecimal)
-
-    class IdenticalXInputsException() : Exception(
-        "The initial X values (x1 and x2) cannot be identical."
-    )
-
-    class NoNumbersInputException() : Exception(
-        "All input fields must contain valid numbers."
-    )
 }
+
+private data class Point(val x: BigDecimal, val y: BigDecimal)
+
+private fun String.toBigDecimalOrThrow(): BigDecimal {
+    return toBigDecimalOrNull() ?: throw NoNumbersInputException()
+}
+
+class NoNumbersInputException() : Exception(
+    "All input fields must contain valid numbers."
+)
+
+class IdenticalXInputsException() : Exception(
+    "The initial X values (x1 and x2) cannot be identical."
+)

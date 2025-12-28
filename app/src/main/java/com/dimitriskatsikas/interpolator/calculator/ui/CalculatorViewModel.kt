@@ -3,8 +3,8 @@ package com.dimitriskatsikas.interpolator.calculator.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase
-import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase.IdenticalXInputsException
-import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase.NoNumbersInputException
+import com.dimitriskatsikas.interpolator.calculator.domain.IdenticalXInputsException
+import com.dimitriskatsikas.interpolator.calculator.domain.NoNumbersInputException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
