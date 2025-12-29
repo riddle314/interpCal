@@ -1,5 +1,6 @@
 package com.dimitriskatsikas.interpolator.info.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -84,6 +86,7 @@ private fun Content(
             title = stringResource(R.string.info_creator_title),
             subtitle = stringResource(R.string.creator_name)
         )
+        PrivacyPolicyLink()
     }
 }
 
@@ -98,6 +101,25 @@ private fun InfoItem(title: String, subtitle: String) {
         Text(
             text = subtitle,
             style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Composable
+private fun PrivacyPolicyLink() {
+    val uriHandler = LocalUriHandler.current
+    Column(modifier = Modifier.padding(vertical = 8.dp)) {
+        Text(
+            text = "Privacy Policy",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = "https://sites.google.com/view/interpolator-privacy-policy",
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.clickable {
+                uriHandler.openUri("https://sites.google.com/view/interpolator-privacy-policy")
+            }
         )
     }
 }
