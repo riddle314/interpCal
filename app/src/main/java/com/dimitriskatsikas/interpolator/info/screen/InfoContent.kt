@@ -22,6 +22,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.dimitriskatsikas.interpolator.R
 import com.dimitriskatsikas.interpolator.info.InfoView
@@ -108,18 +109,19 @@ private fun InfoItem(title: String, subtitle: String) {
 @Composable
 private fun PrivacyPolicyLink() {
     val uriHandler = LocalUriHandler.current
+    val privacyPolicyUrl = stringResource(R.string.privacy_policy_url)
     Column(modifier = Modifier.padding(vertical = 8.dp)) {
         Text(
-            text = "Privacy Policy",
+            text = stringResource(R.string.privacy_policy_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "https://sites.google.com/view/interpolator-privacy-policy",
+            text = privacyPolicyUrl,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.clickable {
-                uriHandler.openUri("https://sites.google.com/view/interpolator-privacy-policy")
-            }
+            color = MaterialTheme.colorScheme.primary,
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier.clickable { uriHandler.openUri(privacyPolicyUrl) }
         )
     }
 }

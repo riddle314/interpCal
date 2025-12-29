@@ -25,4 +25,6 @@
     <string name="result_copied_toast_message">Result copied!</string>
     <string name="copied_result_label">Copied Result</string>
     <string name="ad_banner_preview_text" translatable="false">Google Mobile Ads preview banner.</string>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_url" translatable="false">https://sites.google.com/view/interpolator-privacy-policy</string>
 </resources>
