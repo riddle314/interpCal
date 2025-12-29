@@ -91,19 +91,19 @@ fun CalculatorContent(
                 scrollBehavior = scrollBehavior
             )
         },
+        bottomBar = {
+            AdBanner(
+                modifier = Modifier.padding(
+                    WindowInsets.navigationBars.asPaddingValues()
+                )
+            )
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         content = { paddingValues ->
             MainContent(
                 state = state,
                 paddingValues = paddingValues,
                 onAction = onAction
-            )
-        },
-        bottomBar = {
-            AdBanner(
-                modifier = Modifier.padding(
-                    WindowInsets.navigationBars.asPaddingValues()
-                )
             )
         }
     )
