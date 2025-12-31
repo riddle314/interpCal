@@ -27,8 +27,14 @@ import androidx.compose.ui.tooling.preview.Preview
     showSystemUi = true
 )
 @Preview(
-    name = "Tablet | x1 font",
-    device = "spec:width=800dp,height=1280dp,dpi=240",
+    name = "Tablet 7 | x1 font",
+    device = Devices.NEXUS_7,
+    fontScale = 1f,
+    showSystemUi = true
+)
+@Preview(
+    name = "Tablet 10 | x1 font",
+    device = Devices.PIXEL_TABLET,
     fontScale = 1f,
     showSystemUi = true
 )
