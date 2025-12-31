@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
@@ -39,6 +40,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -100,11 +102,19 @@ fun CalculatorContent(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         content = { paddingValues ->
-            MainContent(
-                state = state,
-                paddingValues = paddingValues,
-                onAction = onAction
-            )
+            Surface(modifier = Modifier.fillMaxSize()) {
+                if (state.isExplainerDialogVisible) {
+                    ExplainerDialog(
+                        onDismissRequest = { onAction(UiAction.DismissExplainerDialog) },
+                        modifier = Modifier
+                    )
+                }
+                MainContent(
+                    state = state,
+                    paddingValues = paddingValues,
+                    onAction = onAction
+                )
+            }
         }
     )
 }

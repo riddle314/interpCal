@@ -375,4 +375,24 @@ class CalculatorViewModelTest {
                 Assertions.assertEquals(CalculatorView.Effect.OpenInfoScreen, awaitItem())
             }
         }
+
+    @Test
+    fun `when UiAction is DismissExplainerDialog, then dismissExplainerDialog`() =
+        runTest {
+            testClass.onUiAction(CalculatorView.UiAction.DismissExplainerDialog)
+
+            testClass.state.test {
+                Assertions.assertFalse(expectMostRecentItem().isExplainerDialogVisible)
+            }
+        }
+
+    @Test
+    fun `when UiAction is ShowExplainerDialog, then showExplainerDialog`() =
+        runTest {
+            testClass.onUiAction(CalculatorView.UiAction.ShowExplainerDialog)
+
+            testClass.state.test {
+                Assertions.assertTrue(expectMostRecentItem().isExplainerDialogVisible)
+            }
+        }
 }

@@ -44,6 +44,9 @@ class CalculatorViewModel @Inject constructor(
             CalculatorView.UiAction.OpenInfoScreen -> {
                 _effect.trySend(CalculatorView.Effect.OpenInfoScreen)
             }
+
+            CalculatorView.UiAction.DismissExplainerDialog -> setExplainerDialogVisibility(false)
+            CalculatorView.UiAction.ShowExplainerDialog -> setExplainerDialogVisibility(true)
         }
     }
 
@@ -147,5 +150,13 @@ class CalculatorViewModel @Inject constructor(
                 CalculatorView.ErrorType.NoNumbersInput
             )
         )
+    }
+
+    private fun setExplainerDialogVisibility(visible: Boolean) {
+        _state.update {
+            it.copy(
+                isExplainerDialogVisible = visible
+            )
+        }
     }
 }

@@ -27,4 +27,8 @@
     <string name="ad_banner_preview_text" translatable="false">Google Mobile Ads preview banner.</string>
     <string name="privacy_policy_title">Privacy Policy</string>
     <string name="privacy_policy_url" translatable="false">https://sites.google.com/view/interpolator-privacy-policy</string>
+    <string name="explainer_dialog_title">How It Works</string>
+    <string name="explainer_dialog_image_content_description">Linear interpolation graph diagram</string>
+    <string name="explainer_dialog_body">Imagine a straight line passing through your Start Point (x1, y1) and End Point (x2, y2).\n\nWe calculate the exact value for your Target (x) anywhere along that entire line, whether inside or outside the points.</string>
+    <string name="explainer_dialog_dismiss_button">Got it</string>
 </resources>

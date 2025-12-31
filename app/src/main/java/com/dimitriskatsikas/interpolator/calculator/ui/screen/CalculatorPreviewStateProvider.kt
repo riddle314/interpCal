@@ -17,6 +17,16 @@ class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.S
             ctaState = CtaState.Disabled
         ),
         CalculatorView.State(
+            inputX1 = "",
+            inputY1 = "",
+            inputX2 = "",
+            inputY2 = "",
+            inputX3 = "",
+            result = "",
+            ctaState = CtaState.Disabled,
+            isExplainerDialogVisible = true
+        ),
+        CalculatorView.State(
             inputX1 = "1",
             inputY1 = "100",
             inputX2 = "2",

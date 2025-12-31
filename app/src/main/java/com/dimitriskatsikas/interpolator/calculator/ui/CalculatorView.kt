@@ -11,7 +11,8 @@ object CalculatorView {
         val inputY2: String = EMPTY_STRING,
         val inputX3: String = EMPTY_STRING,
         val result: String = EMPTY_STRING,
-        val ctaState: CtaState = CtaState.Disabled
+        val ctaState: CtaState = CtaState.Disabled,
+        val isExplainerDialogVisible: Boolean = false
     ) {
 
         sealed interface CtaState {
@@ -34,11 +35,13 @@ object CalculatorView {
         data object Calculate : UiAction
         data object Clear : UiAction
         data object OpenInfoScreen : UiAction
+        data object ShowExplainerDialog : UiAction
+        data object DismissExplainerDialog : UiAction
     }
 
     sealed interface Effect {
         data object OpenInfoScreen : Effect
-        data class ShowErrorToast(val errorType : ErrorType) : Effect
+        data class ShowErrorToast(val errorType: ErrorType) : Effect
     }
 
     sealed interface ErrorType {
