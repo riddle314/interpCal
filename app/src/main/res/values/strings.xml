@@ -18,10 +18,6 @@
     <string name="target_value_header">Target Value</string>
     <string name="error_no_numbers_input">Please provide number values for all inputs</string>
     <string name="info_screen_title">Info</string>
-    <string name="info_app_name_title">App Name</string>
-    <string name="info_version_title">Version</string>
-    <string name="info_creator_title">Creator</string>
-    <string name="creator_name">Dimitris Katsikas</string>
     <string name="result_copied_toast_message">Result copied!</string>
     <string name="copied_result_label">Copied Result</string>
     <string name="ad_banner_preview_text" translatable="false">Google Mobile Ads preview banner.</string>
@@ -32,4 +28,10 @@
     <string name="explainer_dialog_body">Imagine a straight line passing through your Start Point (x1, y1) and End Point (x2, y2).\n\nWe calculate the exact value for your Target (x) anywhere along that entire line, whether inside or outside the points.</string>
     <string name="explainer_dialog_dismiss_button">Got it</string>
     <string name="help_icon_content_description">How it works</string>
+    <string name="app_icon_content_description">App Icon</string>
+    <string name="developed_by">Developed by</string>
+    <string name="developer_name">Dimitris Katsikas</string>
+    <string name="rate_this_app">Rate this App</string>
+    <string name="rate_this_app_subtitle">Like the calculator? Leave a review!</string>
+    <string name="google_play_store_url" translatable="false">https://play.google.com/store/apps/details?id=%1$s</string>
 </resources>

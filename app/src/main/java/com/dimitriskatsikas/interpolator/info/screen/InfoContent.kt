@@ -1,28 +1,45 @@
 package com.dimitriskatsikas.interpolator.info.screen
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowOutward
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.PrivacyTip
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dimitriskatsikas.interpolator.R
 import com.dimitriskatsikas.interpolator.info.InfoView
@@ -74,56 +91,112 @@ private fun Content(
             .padding(paddingValues)
             .padding(horizontal = 16.dp)
             .verticalScroll(scrollState),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        InfoItem(
-            title = stringResource(R.string.info_app_name_title),
-            subtitle = stringResource(R.string.full_app_name)
-        )
-        InfoItem(
-            title = stringResource(R.string.info_version_title),
-            subtitle = state.versionName
-        )
-        InfoItem(
-            title = stringResource(R.string.info_creator_title),
-            subtitle = stringResource(R.string.creator_name)
-        )
-        PrivacyPolicyLink()
+        Spacer(modifier = Modifier.height(40.dp))
+        AppBranding(state)
+        Spacer(modifier = Modifier.height(40.dp))
+        DeveloperItem()
+        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+        PrivacyPolicyItem()
+        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+        RateAppItem()
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
 @Composable
-private fun InfoItem(title: String, subtitle: String) {
-    Column(modifier = Modifier.padding(vertical = 8.dp)) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = subtitle,
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
+private fun AppBranding(state: InfoView.State) {
+    Image(
+        painter = painterResource(id = R.drawable.ic_launcher_foreground),
+        contentDescription = stringResource(R.string.app_icon_content_description),
+        modifier = Modifier
+            .size(100.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(colorResource(R.color.ic_launcher_background))
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    Text(
+        text = stringResource(R.string.full_app_name),
+        style = MaterialTheme.typography.headlineSmall,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center
+    )
+    Text(
+        text = state.versionName,
+        style = MaterialTheme.typography.titleSmall,
+        color = MaterialTheme.colorScheme.secondary
+    )
 }
 
 @Composable
-private fun PrivacyPolicyLink() {
+private fun DeveloperItem() {
+    ListItem(
+        headlineContent = { Text(stringResource(R.string.developed_by)) },
+        supportingContent = { Text(stringResource(R.string.developer_name)) },
+        leadingContent = {
+            Icon(
+                imageVector = Icons.Outlined.Person,
+                contentDescription = null
+            )
+        }
+    )
+}
+
+@Composable
+private fun PrivacyPolicyItem() {
     val uriHandler = LocalUriHandler.current
     val privacyPolicyUrl = stringResource(R.string.privacy_policy_url)
-    Column(modifier = Modifier.padding(vertical = 8.dp)) {
-        Text(
-            text = stringResource(R.string.privacy_policy_title),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = privacyPolicyUrl,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary,
-            textDecoration = TextDecoration.Underline,
-            modifier = Modifier.clickable { uriHandler.openUri(privacyPolicyUrl) }
-        )
-    }
+    ListItem(
+        modifier = Modifier.clickable {
+            uriHandler.openUri(privacyPolicyUrl)
+        },
+        headlineContent = { Text(stringResource(R.string.privacy_policy_title)) },
+        leadingContent = {
+            Icon(
+                imageVector = Icons.Outlined.PrivacyTip,
+                contentDescription = null
+            )
+        },
+        trailingContent = {
+            Icon(
+                Icons.Outlined.ArrowOutward,
+                contentDescription = null,
+                modifier = Modifier.size(16.dp)
+            )
+        }
+    )
+}
+
+@Composable
+private fun RateAppItem() {
+    val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
+    val appPackageName = context.packageName
+    val googlePlayStoreUrl = stringResource(
+        id = R.string.google_play_store_url,
+        appPackageName
+    )
+    ListItem(
+        modifier = Modifier.clickable {
+            uriHandler.openUri(googlePlayStoreUrl)
+        },
+        headlineContent = { Text(stringResource(R.string.rate_this_app)) },
+        supportingContent = { Text(stringResource(R.string.rate_this_app_subtitle)) },
+        leadingContent = {
+            Icon(
+                imageVector = Icons.Outlined.Star,
+                contentDescription = null
+            )
+        },
+        trailingContent = {
+            Icon(
+                imageVector = Icons.Outlined.ArrowOutward,
+                contentDescription = null,
+                modifier = Modifier.size(16.dp)
+            )
+        }
+    )
 }
 
 @Previews

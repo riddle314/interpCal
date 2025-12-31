@@ -103,7 +103,8 @@ fun ExplainerDialog(
                     }
                 }
             }
-        })
+        }
+    )
 }
 
 @Preview
