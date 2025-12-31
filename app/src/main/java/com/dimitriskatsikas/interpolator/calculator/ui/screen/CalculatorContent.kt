@@ -27,6 +27,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -81,6 +82,14 @@ fun CalculatorContent(
             TopAppBar(
                 title = { Text(stringResource(R.string.full_app_name)) },
                 actions = {
+                    IconButton(onClick = { onAction(UiAction.ShowExplainerDialog) }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Lightbulb,
+                            contentDescription = stringResource(
+                                id = R.string.help_icon_content_description
+                            )
+                        )
+                    }
                     IconButton(onClick = { onAction(UiAction.OpenInfoScreen) }) {
                         Icon(
                             imageVector = Icons.Outlined.Info,
