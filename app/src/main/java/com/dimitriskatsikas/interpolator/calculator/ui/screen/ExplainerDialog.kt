@@ -75,7 +75,7 @@ fun ExplainerDialog(
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                            painter = painterResource(id = R.drawable.ic_graph),
                             contentDescription = stringResource(
                                 id = R.string.explainer_dialog_image_content_description
                             ),
