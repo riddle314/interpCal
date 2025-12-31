@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InfoViewModel @Inject constructor(
-    @VersionName private val versionName: String
+    @VersionName versionName: String
 ) : ViewModel() {
 
     val state: StateFlow<InfoView.State> = MutableStateFlow(InfoView.State(versionName = versionName))
