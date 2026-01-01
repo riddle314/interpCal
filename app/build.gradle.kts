@@ -27,6 +27,7 @@ android {
 
     buildTypes {
         debug {
+            // Add ids for test ads on debug
             manifestPlaceholders["ADMOB_APP_ID"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField(
                 type = "String",
