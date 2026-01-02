@@ -34,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -74,7 +73,8 @@ fun InfoContent(
         content = { paddingValues ->
             Content(
                 paddingValues = paddingValues,
-                state = state
+                state = state,
+                onAction = onAction
             )
         }
     )
@@ -83,7 +83,8 @@ fun InfoContent(
 @Composable
 private fun Content(
     paddingValues: PaddingValues,
-    state: InfoView.State
+    state: InfoView.State,
+    onAction: (InfoView.UiAction) -> Unit
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -94,13 +95,13 @@ private fun Content(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(40.dp))
-        AppBranding(state)
+        AppBranding(state = state)
         Spacer(modifier = Modifier.height(40.dp))
         DeveloperItem()
         HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-        PrivacyPolicyItem()
+        PrivacyPolicyItem(onAction = onAction)
         HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-        RateAppItem()
+        RateAppItem(onAction = onAction)
         Spacer(modifier = Modifier.height(24.dp))
     }
 }
@@ -144,12 +145,11 @@ private fun DeveloperItem() {
 }
 
 @Composable
-private fun PrivacyPolicyItem() {
-    val uriHandler = LocalUriHandler.current
+private fun PrivacyPolicyItem(onAction: (InfoView.UiAction) -> Unit) {
     val privacyPolicyUrl = stringResource(R.string.privacy_policy_url)
     ListItem(
         modifier = Modifier.clickable {
-            uriHandler.openUri(privacyPolicyUrl)
+            onAction(InfoView.UiAction.OnPolicyClicked(url = privacyPolicyUrl))
         },
         headlineContent = { Text(stringResource(R.string.privacy_policy_title)) },
         leadingContent = {
@@ -169,8 +169,7 @@ private fun PrivacyPolicyItem() {
 }
 
 @Composable
-private fun RateAppItem() {
-    val uriHandler = LocalUriHandler.current
+private fun RateAppItem(onAction: (InfoView.UiAction) -> Unit) {
     val context = LocalContext.current
     val appPackageName = context.packageName
     val googlePlayStoreUrl = stringResource(
@@ -179,7 +178,7 @@ private fun RateAppItem() {
     )
     ListItem(
         modifier = Modifier.clickable {
-            uriHandler.openUri(googlePlayStoreUrl)
+            onAction(InfoView.UiAction.OnRateClicked(url = googlePlayStoreUrl))
         },
         headlineContent = { Text(stringResource(R.string.rate_this_app)) },
         supportingContent = { Text(stringResource(R.string.rate_this_app_subtitle)) },

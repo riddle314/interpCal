@@ -33,4 +33,24 @@ class InfoViewModelTest {
             assertEquals(InfoView.Effect.NavigateBack, awaitItem())
         }
     }
+
+    @Test
+    fun `when UiAction is OnPolicyClicked, then navigateToPolicy`() = runTest {
+        val policyUrl = "https://example.com/policy"
+        testClass.onUiAction(InfoView.UiAction.OnPolicyClicked(url = policyUrl))
+
+        testClass.effect.test {
+            assertEquals(InfoView.Effect.NavigateToPolicy(url = policyUrl), awaitItem())
+        }
+    }
+
+    @Test
+    fun `when UiAction is OnRateClicked, then navigateToRate`() = runTest {
+        val rateUrl = "https://example.com/rate"
+        testClass.onUiAction(InfoView.UiAction.OnRateClicked(url = rateUrl))
+
+        testClass.effect.test {
+            assertEquals(InfoView.Effect.NavigateToRate(url = rateUrl), awaitItem())
+        }
+    }
 }

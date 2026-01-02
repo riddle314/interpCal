@@ -25,6 +25,14 @@ class InfoViewModel @Inject constructor(
             InfoView.UiAction.OnBackClicked -> _effect.trySend(
                 InfoView.Effect.NavigateBack
             )
+
+            is InfoView.UiAction.OnPolicyClicked -> _effect.trySend(
+                InfoView.Effect.NavigateToPolicy(url = action.url)
+            )
+
+            is InfoView.UiAction.OnRateClicked -> _effect.trySend(
+                InfoView.Effect.NavigateToRate(url = action.url)
+            )
         }
     }
 }
