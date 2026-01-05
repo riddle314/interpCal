@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -52,7 +53,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -136,11 +139,15 @@ fun MainContent(
     onAction: (UiAction) -> Unit
 ) {
     val scrollState = rememberScrollState()
+    val focusManager = LocalFocusManager.current
     Column(
         modifier = Modifier
             .padding(paddingValues)
             .verticalScroll(scrollState)
             .padding(horizontal = 16.dp)
+            .pointerInput(Unit) {
+                detectTapGestures { focusManager.clearFocus() }
+            }
     ) {
         Spacer(Modifier.height(24.dp))
         StartPointSection(state, onAction)
@@ -258,7 +265,7 @@ private fun TargetValueSection(
     state: CalculatorView.State,
     onAction: (UiAction) -> Unit
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
     SectionHeader(text = stringResource(R.string.target_value_header))
     OutlinedTextField(
         value = state.inputX3,
@@ -281,10 +288,10 @@ private fun TargetValueSection(
         ),
         keyboardActions = KeyboardActions(
             onDone = {
+                focusManager.clearFocus()
                 if (state.ctaState == CalculatorView.State.CtaState.Enabled) {
                     onAction(UiAction.Calculate)
                 }
-                keyboardController?.hide()
             }
         ),
         modifier = Modifier.fillMaxWidth(),
