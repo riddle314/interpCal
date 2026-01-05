@@ -109,7 +109,7 @@ fun ExplainerDialog(
 
 @Preview
 @Composable
-private fun AlertDialogPreview() {
+private fun ExplainerDialogPreview() {
     InterpolatorTheme {
         ExplainerDialog(
             onDismissRequest = {})

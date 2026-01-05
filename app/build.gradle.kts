@@ -57,7 +57,6 @@ android {
         compose = true
         buildConfig = true
     }
-
     testOptions {
         unitTests.all {
             it.useJUnitPlatform()
@@ -65,8 +64,6 @@ android {
     }
 }
 
-
-// Add this block
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_11)
