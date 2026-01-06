@@ -77,10 +77,16 @@ class CalculatorViewModel @Inject constructor(
                     )
                 }
             }.onFailure { exception ->
+                _state.update {
+                    it.copy(
+                        result = EMPTY_STRING,
+                        ctaState = CalculatorView.State.CtaState.Enabled,
+                    )
+                }
                 when (exception) {
-                    is NoNumbersInputException -> handleNoNumbersInputError()
-                    is IdenticalXInputsException -> handleIdenticalXInputsError()
-                    else -> Unit
+                    is NoNumbersInputException -> showNoNumbersInputErrorToast()
+                    is IdenticalXInputsException -> showIdenticalXInputsErrorToast()
+                    else -> showUnknownErrorToast()
                 }
             }
         }
@@ -124,13 +130,7 @@ class CalculatorViewModel @Inject constructor(
         }
     }
 
-    private fun handleIdenticalXInputsError() {
-        _state.update {
-            it.copy(
-                result = EMPTY_STRING,
-                ctaState = CalculatorView.State.CtaState.Enabled,
-            )
-        }
+    private fun showIdenticalXInputsErrorToast() {
         _effect.trySend(
             CalculatorView.Effect.ShowErrorToast(
                 CalculatorView.ErrorType.IdenticalXInputs
@@ -138,13 +138,7 @@ class CalculatorViewModel @Inject constructor(
         )
     }
 
-    private fun handleNoNumbersInputError() {
-        _state.update {
-            it.copy(
-                result = EMPTY_STRING,
-                ctaState = CalculatorView.State.CtaState.Disabled,
-            )
-        }
+    private fun showNoNumbersInputErrorToast() {
         _effect.trySend(
             CalculatorView.Effect.ShowErrorToast(
                 CalculatorView.ErrorType.NoNumbersInput
@@ -158,5 +152,13 @@ class CalculatorViewModel @Inject constructor(
                 isExplainerDialogVisible = visible
             )
         }
+    }
+
+    private fun showUnknownErrorToast() {
+        _effect.trySend(
+            CalculatorView.Effect.ShowErrorToast(
+                CalculatorView.ErrorType.Unknown
+            )
+        )
     }
 }

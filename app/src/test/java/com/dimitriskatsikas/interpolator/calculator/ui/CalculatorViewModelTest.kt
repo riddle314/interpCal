@@ -177,7 +177,7 @@ class CalculatorViewModelTest {
                     inputY2 = inputY2,
                     inputX3 = inputX3,
                     result = "",
-                    ctaState = CtaState.Disabled
+                    ctaState = CtaState.Enabled
                 )
                 Assertions.assertEquals(expected, awaitItem())
             }

@@ -47,5 +47,6 @@ object CalculatorView {
     sealed interface ErrorType {
         data object IdenticalXInputs : ErrorType
         data object NoNumbersInput : ErrorType
+        data object Unknown : ErrorType
     }
 }

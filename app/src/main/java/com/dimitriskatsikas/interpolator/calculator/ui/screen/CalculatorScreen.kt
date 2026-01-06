@@ -22,6 +22,7 @@ fun CalculatorScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val identicalXInputsErrorMessage = stringResource(id = R.string.error_identical_x_inputs)
     val noNumbersInputErrorMessage = stringResource(id = R.string.error_no_numbers_input)
+    val unkwownErrorMessage = stringResource(id = R.string.calculator_error_unknown)
 
     CalculatorContent(
         state = state,
@@ -36,7 +37,8 @@ fun CalculatorScreen(
                 backStack,
                 snackbarHostState,
                 identicalXInputsErrorMessage,
-                noNumbersInputErrorMessage
+                noNumbersInputErrorMessage,
+                unkwownErrorMessage
             )
         }
     }
@@ -47,7 +49,8 @@ private suspend fun handleEffect(
     backStack: SnapshotStateList<Route>,
     snackbarHostState: SnackbarHostState,
     identicalXInputsErrorMessage: String,
-    noNumbersInputErrorMessage: String
+    noNumbersInputErrorMessage: String,
+    unkwownErrorMessage: String
 ) {
     when (effect) {
         is CalculatorView.Effect.OpenInfoScreen -> {
@@ -62,6 +65,10 @@ private suspend fun handleEffect(
 
                 CalculatorView.ErrorType.NoNumbersInput -> {
                     snackbarHostState.showSnackbar(noNumbersInputErrorMessage)
+                }
+
+                CalculatorView.ErrorType.Unknown -> {
+                    snackbarHostState.showSnackbar(unkwownErrorMessage)
                 }
             }
         }

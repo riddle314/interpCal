@@ -34,4 +34,5 @@
     <string name="rate_this_app">Rate this App</string>
     <string name="rate_this_app_subtitle">Like the calculator? Leave a review!</string>
     <string name="google_play_store_url" translatable="false">https://play.google.com/store/apps/details?id=%1$s</string>
+    <string name="calculator_error_unknown">Something went wrong</string>
 </resources>
