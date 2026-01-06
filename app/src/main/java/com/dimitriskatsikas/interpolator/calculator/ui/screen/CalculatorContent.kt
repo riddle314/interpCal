@@ -52,10 +52,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -398,6 +400,7 @@ private fun ResultCard(
     val context = LocalContext.current
     val clipboardManager = context.getSystemService(ClipboardManager::class.java)
     val interactionSource = remember { MutableInteractionSource() }
+    val haptic = LocalHapticFeedback.current
     val toastMessage = stringResource(id = R.string.result_copied_toast_message)
     val resultLabel = stringResource(id = R.string.copied_result_label)
     Card(
@@ -412,7 +415,7 @@ private fun ResultCard(
                 onClick = {
                     val clip = ClipData.newPlainText(resultLabel, result)
                     clipboardManager?.setPrimaryClip(clip)
-
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                         Toast.makeText(
                             context,
@@ -440,7 +443,7 @@ private fun ResultCard(
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(4.dp))
                 Icon(
                     imageVector = Icons.Outlined.ContentCopy,
                     contentDescription = stringResource(R.string.tap_to_copy_label),
