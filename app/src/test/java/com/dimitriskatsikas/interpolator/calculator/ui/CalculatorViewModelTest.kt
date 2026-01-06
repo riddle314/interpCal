@@ -1,7 +1,7 @@
 package com.dimitriskatsikas.interpolator.calculator.ui
 
 import app.cash.turbine.test
-import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase
+import com.dimitriskatsikas.interpolator.calculator.domain.LinearInterpolationCalculator
 import com.dimitriskatsikas.interpolator.calculator.ui.CalculatorView.State.CtaState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,8 +20,6 @@ import org.junit.jupiter.api.TestInstance
 @OptIn(ExperimentalCoroutinesApi::class)
 class CalculatorViewModelTest {
     private val testDispatcher = UnconfinedTestDispatcher()
-    private var computeLinearInterpolationUseCase: ComputeLinearInterpolationUseCase =
-        ComputeLinearInterpolationUseCase()
     private lateinit var testClass: CalculatorViewModel
 
     @BeforeAll
@@ -37,7 +35,7 @@ class CalculatorViewModelTest {
     @BeforeEach
     fun setUp() {
         testClass = CalculatorViewModel(
-            computeLinearInterpolationUseCase = computeLinearInterpolationUseCase
+            linearInterpolationCalculator = LinearInterpolationCalculator()
         )
     }
 

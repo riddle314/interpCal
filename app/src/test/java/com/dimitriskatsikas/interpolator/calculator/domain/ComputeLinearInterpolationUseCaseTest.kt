@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test
 
 class ComputeLinearInterpolationUseCaseTest {
 
-    private lateinit var testClass: ComputeLinearInterpolationUseCase
+    private lateinit var testClass: LinearInterpolationCalculator
 
     @BeforeEach
     fun setUp() {
-        testClass = ComputeLinearInterpolationUseCase()
+        testClass = LinearInterpolationCalculator()
     }
 
     @Test

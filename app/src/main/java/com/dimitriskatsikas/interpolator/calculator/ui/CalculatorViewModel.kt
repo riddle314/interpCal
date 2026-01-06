@@ -2,7 +2,7 @@ package com.dimitriskatsikas.interpolator.calculator.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dimitriskatsikas.interpolator.calculator.domain.ComputeLinearInterpolationUseCase
+import com.dimitriskatsikas.interpolator.calculator.domain.LinearInterpolationCalculator
 import com.dimitriskatsikas.interpolator.calculator.domain.IdenticalXInputsException
 import com.dimitriskatsikas.interpolator.calculator.domain.NoNumbersInputException
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +22,7 @@ private const val EMPTY_STRING = ""
 
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
-    private val computeLinearInterpolationUseCase: ComputeLinearInterpolationUseCase
+    private val linearInterpolationCalculator: LinearInterpolationCalculator
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CalculatorView.State())
@@ -60,7 +60,7 @@ class CalculatorViewModel @Inject constructor(
         viewModelScope.launch {
             val result = withContext(Dispatchers.Default) {
                 val currentState = _state.value
-                computeLinearInterpolationUseCase(
+                linearInterpolationCalculator(
                     inputX1 = currentState.inputX1,
                     inputY1 = currentState.inputY1,
                     inputX2 = currentState.inputX2,

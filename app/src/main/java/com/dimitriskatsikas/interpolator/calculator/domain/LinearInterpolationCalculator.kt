@@ -5,7 +5,7 @@ import java.math.MathContext
 import java.math.RoundingMode
 import javax.inject.Inject
 
-class ComputeLinearInterpolationUseCase @Inject constructor() {
+class LinearInterpolationCalculator @Inject constructor() {
 
     /**
      * Computes the linear interpolation for a given set of points.
