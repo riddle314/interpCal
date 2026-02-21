@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.info
+package com.dimitriskatsikas.interpolator.ui.info
 
 object InfoView {
 

@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.info
+package com.dimitriskatsikas.interpolator.ui.info
 
 import app.cash.turbine.test
 import kotlinx.coroutines.test.runTest

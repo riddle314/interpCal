@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.calculator.domain
+package com.dimitriskatsikas.interpolator.domain
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach

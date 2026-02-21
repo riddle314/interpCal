@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.calculator.ui.screen
+package com.dimitriskatsikas.interpolator.ui.calculator.components
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -68,8 +68,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.dimitriskatsikas.interpolator.R
-import com.dimitriskatsikas.interpolator.calculator.ui.CalculatorView
-import com.dimitriskatsikas.interpolator.calculator.ui.CalculatorView.UiAction
+import com.dimitriskatsikas.interpolator.ui.calculator.CalculatorView
+import com.dimitriskatsikas.interpolator.ui.calculator.CalculatorView.UiAction
 import com.dimitriskatsikas.interpolator.ui.theme.InterpolatorTheme
 import com.dimitriskatsikas.interpolator.utils.Previews
 

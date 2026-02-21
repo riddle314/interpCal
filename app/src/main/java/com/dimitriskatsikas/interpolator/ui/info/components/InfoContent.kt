@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.info.screen
+package com.dimitriskatsikas.interpolator.ui.info.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -41,7 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dimitriskatsikas.interpolator.R
-import com.dimitriskatsikas.interpolator.info.InfoView
+import com.dimitriskatsikas.interpolator.ui.info.InfoView
 import com.dimitriskatsikas.interpolator.ui.theme.InterpolatorTheme
 import com.dimitriskatsikas.interpolator.utils.Previews
 

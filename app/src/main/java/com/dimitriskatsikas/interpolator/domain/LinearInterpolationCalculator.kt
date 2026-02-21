@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.calculator.domain
+package com.dimitriskatsikas.interpolator.domain
 
 import java.math.BigDecimal
 import java.math.MathContext

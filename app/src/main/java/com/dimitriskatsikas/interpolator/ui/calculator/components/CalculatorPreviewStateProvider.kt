@@ -1,8 +1,7 @@
-package com.dimitriskatsikas.interpolator.calculator.ui.screen
+package com.dimitriskatsikas.interpolator.ui.calculator.components
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.dimitriskatsikas.interpolator.calculator.ui.CalculatorView
-import com.dimitriskatsikas.interpolator.calculator.ui.CalculatorView.State.CtaState
+import com.dimitriskatsikas.interpolator.ui.calculator.CalculatorView
 
 class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.State> {
 
@@ -14,7 +13,7 @@ class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.S
             inputY2 = "",
             inputX3 = "",
             result = "",
-            ctaState = CtaState.Disabled
+            ctaState = CalculatorView.State.CtaState.Disabled
         ),
         CalculatorView.State(
             inputX1 = "",
@@ -23,7 +22,7 @@ class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.S
             inputY2 = "",
             inputX3 = "",
             result = "",
-            ctaState = CtaState.Disabled,
+            ctaState = CalculatorView.State.CtaState.Disabled,
             isExplainerDialogVisible = true
         ),
         CalculatorView.State(
@@ -33,7 +32,7 @@ class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.S
             inputY2 = "200",
             inputX3 = "1.5",
             result = "",
-            ctaState = CtaState.Enabled
+            ctaState = CalculatorView.State.CtaState.Enabled
         ),
         CalculatorView.State(
             inputX1 = "1",
@@ -42,7 +41,7 @@ class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.S
             inputY2 = "200",
             inputX3 = "1.5",
             result = "",
-            ctaState = CtaState.Loading
+            ctaState = CalculatorView.State.CtaState.Loading
         ),
         CalculatorView.State(
             inputX1 = "1",
@@ -51,7 +50,7 @@ class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.S
             inputY2 = "200",
             inputX3 = "1.5",
             result = "150",
-            ctaState = CtaState.Enabled
+            ctaState = CalculatorView.State.CtaState.Enabled
         ),
         // more test cases for screenshots
         CalculatorView.State(
@@ -61,7 +60,7 @@ class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.S
             inputY2 = "50",
             inputX3 = "50",
             result = "25",
-            ctaState = CtaState.Enabled
+            ctaState = CalculatorView.State.CtaState.Enabled
         ),
         CalculatorView.State(
             inputX1 = "1.5",
@@ -70,7 +69,7 @@ class CalculatorPreviewStateProvider : PreviewParameterProvider<CalculatorView.S
             inputY2 = "19.62",
             inputX3 = "2.5",
             result = "14.715",
-            ctaState = CtaState.Enabled
+            ctaState = CalculatorView.State.CtaState.Enabled
         )
     )
 }

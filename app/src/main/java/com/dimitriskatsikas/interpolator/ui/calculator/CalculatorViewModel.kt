@@ -1,10 +1,10 @@
-package com.dimitriskatsikas.interpolator.calculator.ui
+package com.dimitriskatsikas.interpolator.ui.calculator
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dimitriskatsikas.interpolator.calculator.domain.LinearInterpolationCalculator
-import com.dimitriskatsikas.interpolator.calculator.domain.IdenticalXInputsException
-import com.dimitriskatsikas.interpolator.calculator.domain.NoNumbersInputException
+import com.dimitriskatsikas.interpolator.domain.LinearInterpolationCalculator
+import com.dimitriskatsikas.interpolator.domain.IdenticalXInputsException
+import com.dimitriskatsikas.interpolator.domain.NoNumbersInputException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel

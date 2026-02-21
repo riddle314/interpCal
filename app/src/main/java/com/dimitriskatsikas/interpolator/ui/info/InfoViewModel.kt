@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.info
+package com.dimitriskatsikas.interpolator.ui.info
 
 import androidx.lifecycle.ViewModel
 import com.dimitriskatsikas.interpolator.di.VersionName

@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.info.screen
+package com.dimitriskatsikas.interpolator.ui.info
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -8,8 +8,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dimitriskatsikas.interpolator.Route
-import com.dimitriskatsikas.interpolator.info.InfoView
-import com.dimitriskatsikas.interpolator.info.InfoViewModel
+import com.dimitriskatsikas.interpolator.ui.info.components.InfoContent
 
 @Composable
 fun InfoScreen(

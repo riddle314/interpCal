@@ -1,8 +1,8 @@
-package com.dimitriskatsikas.interpolator.calculator.ui
+package com.dimitriskatsikas.interpolator.ui.calculator
 
 import app.cash.turbine.test
-import com.dimitriskatsikas.interpolator.calculator.domain.LinearInterpolationCalculator
-import com.dimitriskatsikas.interpolator.calculator.ui.CalculatorView.State.CtaState
+import com.dimitriskatsikas.interpolator.domain.LinearInterpolationCalculator
+import com.dimitriskatsikas.interpolator.ui.calculator.CalculatorView.State.CtaState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher

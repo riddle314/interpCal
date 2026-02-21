@@ -1,4 +1,4 @@
-package com.dimitriskatsikas.interpolator.calculator.ui.screen
+package com.dimitriskatsikas.interpolator.ui.calculator.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
