@@ -1,0 +1,36 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Automatically rebases PRs when the main branch changes
+    rebase-strategy: "auto"
+    open-pull-requests-limit: 10
+
+    groups:
+      # Group Kotlin and KSP to ensure compatibility
+      kotlin-ecosystem:
+        patterns:
+          - "org.jetbrains.kotlin*"
+          - "com.google.devtools.ksp"
+
+      # Group Compose and UI updates
+      compose-dependencies:
+        patterns:
+          - "androidx.compose*"
+          - "androidx.activity"
+          - "androidx.navigation3"
+
+      # Group testing libraries
+      testing-dependencies:
+        patterns:
+          - "org.junit*"
+          - "androidx.test*"
+          - "app.cash.turbine"
+          - "org.jetbrains.kotlinx.kotlinx-coroutines-test"
