@@ -39,6 +39,8 @@ google-services.json
 *.class
 *.zip
 *.jar
+# EXCEPT for the Gradle wrapper jar (keep this one!)
+!gradle/wrapper/gradle-wrapper.jar
 *~
 *.swp
 
