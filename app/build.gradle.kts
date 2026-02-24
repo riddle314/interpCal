@@ -49,8 +49,8 @@ android {
             if (localPropertiesFile.exists()) {
                 localPropertiesFile.inputStream().use { properties.load(it) }
             }
-            val admobAppId = properties.getProperty("ADMOB_APP_ID")
-            val bannerAdUnitId = properties.getProperty("BANNER_AD_UNIT_ID")
+            val admobAppId = properties.getProperty("ADMOB_APP_ID") ?: "MISSING_ADMOB_ID"
+            val bannerAdUnitId = properties.getProperty("BANNER_AD_UNIT_ID") ?: "MISSING_BANNER_ID"
 
             // Add ids for release
             manifestPlaceholders["ADMOB_APP_ID"] = admobAppId
