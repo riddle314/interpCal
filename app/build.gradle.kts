@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -41,11 +42,22 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            manifestPlaceholders["ADMOB_APP_ID"] = "***REMOVED***"
+
+            // Load local.properties
+            val properties = Properties()
+            val localPropertiesFile = rootProject.file("local.properties")
+            if (localPropertiesFile.exists()) {
+                localPropertiesFile.inputStream().use { properties.load(it) }
+            }
+            val admobAppId = properties.getProperty("ADMOB_APP_ID")
+            val bannerAdUnitId = properties.getProperty("BANNER_AD_UNIT_ID")
+
+            // Add ids for release
+            manifestPlaceholders["ADMOB_APP_ID"] = admobAppId
             buildConfigField(
                 type = "String",
                 name = "BANNER_AD_UNIT_ID",
-                value = "\"***REMOVED***\""
+                value = "\"$bannerAdUnitId\""
             )
         }
     }
