@@ -1,6 +1,6 @@
 [versions]
-agp = "8.13.2"
-kotlin = "2.2.0"
+agp = "9.0.1"
+kotlin = "2.0.0"
 coreKtx = "1.17.0"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
@@ -15,7 +15,7 @@ junitJupiter = "5.10.3"
 playServicesAds = "24.9.0"
 turbine = "1.2.1"
 hilt = "2.59.2"
-ksp = "2.2.20-2.0.4"
+ksp = "2.0.0-1.0.21"
 hiltNavigationCompose = "1.3.0"
 
 [libraries]
@@ -47,7 +47,6 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
 hilt-gradle = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
