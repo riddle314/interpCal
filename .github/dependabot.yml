@@ -24,23 +24,31 @@ updates:
       - "kotlin"
 
     groups:
-      # Group Kotlin and KSP to ensure compatibility
-      kotlin-ecosystem:
+      # 1. Unified Android Core: Kotlin + KSP + Compose
+      android-core:
         patterns:
-          - "org.jetbrains.kotlin*"
-          - "com.google.devtools.ksp"
+          - "org.jetbrains.kotlin*"   # Catch Kotlin, Compose Plugin, & Serialization
+          - "com.google.devtools.ksp*" # KSP must match Kotlin version
+          - "androidx.compose*"       # All Compose libraries + BOM
+          - "androidx.activity*"      # Often updated with Compose
+          - "androidx.lifecycle*"     # Runtime/ViewModel hooks for Compose
+          - "androidx.navigation3*"   # Navigation 3 libraries updated with Compose
+        exclude-patterns:
+          - "org.jetbrains.kotlinx:kotlinx-coroutines-test"
 
-      # Group Compose and UI updates
-      compose-dependencies:
-        patterns:
-          - "androidx.compose*"
-          - "androidx.activity"
-          - "androidx.navigation3"
-
-      # Group testing libraries
-      testing-dependencies:
+      # 2. Testing Stack
+      # Keeps your test runner and assertion libraries together.
+      testing-suite:
         patterns:
           - "org.junit*"
           - "androidx.test*"
           - "app.cash.turbine"
-          - "org.jetbrains.kotlinx.kotlinx-coroutines-test"
+          - "org.jetbrains.kotlinx:kotlinx-coroutines-test"
+
+      # 3. Dependency Injection
+      # Hilt and its Compose/Navigation integrations.
+      dependency-injection:
+        patterns:
+          - "com.google.dagger.hilt*" # Hilt Gradle plugin id
+          - "com.google.dagger:hilt-*" # Hilt libraries (e.g. hilt-android, hilt-compiler)
+          - "androidx.hilt*"
