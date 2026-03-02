@@ -25,7 +25,7 @@ class LinearInterpolationCalculator @Inject constructor() {
      * @param inputY2 The y-coordinate of the second point.
      * @param inputX3 The x-coordinate of the point to interpolate.
      * @return A [Result] object containing the calculated y-coordinate as a [String] on success.
-     *         On failure, it returns:
+     *         On failure, it returns a failure [Result] containing:
      *         - [NoNumbersInputException] if any input field does not contain a valid number.
      *         - [IdenticalXInputsException] if `inputX1` and `inputX2` are the same, which would cause a division by zero.
      */
@@ -53,12 +53,6 @@ class LinearInterpolationCalculator @Inject constructor() {
                 x3 = x3
             )
             formatBigDecimal(y3)
-        }.recoverCatching {
-            when (it) {
-                is NoNumbersInputException -> throw it
-                is IdenticalXInputsException -> throw it
-                else -> throw it
-            }
         }
     }
 

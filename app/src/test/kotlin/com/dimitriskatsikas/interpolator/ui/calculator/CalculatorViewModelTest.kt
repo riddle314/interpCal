@@ -191,7 +191,7 @@ class CalculatorViewModelTest {
         }
 
     @Test
-    fun `given identical x inputs,, when UiAction is Calculate, then update state and show error toast`() =
+    fun `given identical x inputs, when UiAction is Calculate, then update state and show error toast`() =
         runTest {
             val inputX1 = "1"
             val inputY1 = "100"
