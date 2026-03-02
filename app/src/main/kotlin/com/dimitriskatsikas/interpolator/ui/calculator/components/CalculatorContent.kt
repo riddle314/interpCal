@@ -135,7 +135,7 @@ fun CalculatorContent(
 }
 
 @Composable
-fun MainContent(
+private fun MainContent(
     state: CalculatorView.State,
     paddingValues: PaddingValues,
     onAction: (UiAction) -> Unit

@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeMobileAdds()
+        initializeMobileAds()
         enableEdgeToEdge()
         setContent {
             InterpolatorTheme {
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun initializeMobileAdds() {
+    private fun initializeMobileAds() {
         MobileAds.initialize(this) {}
     }
 }
