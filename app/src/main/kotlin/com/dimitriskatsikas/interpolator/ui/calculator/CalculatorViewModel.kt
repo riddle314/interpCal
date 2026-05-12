@@ -2,8 +2,8 @@ package com.dimitriskatsikas.interpolator.ui.calculator
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dimitriskatsikas.interpolator.domain.LinearInterpolationCalculator
 import com.dimitriskatsikas.interpolator.domain.IdenticalXInputsException
+import com.dimitriskatsikas.interpolator.domain.LinearInterpolationCalculator
 import com.dimitriskatsikas.interpolator.domain.NoNumbersInputException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +33,7 @@ class CalculatorViewModel @Inject constructor(
         initialValue = CalculatorView.State()
     )
 
-    private val _effect: Channel<CalculatorView.Effect> = Channel(Channel.BUFFERED)
+    private val _effect: Channel<CalculatorView.Effect> = Channel(Channel.CONFLATED)
     val effect: Flow<CalculatorView.Effect> = _effect.receiveAsFlow()
 
     fun onUiAction(action: CalculatorView.UiAction) {
@@ -41,10 +41,7 @@ class CalculatorViewModel @Inject constructor(
             is CalculatorView.UiAction.Calculate -> calculate()
             is CalculatorView.UiAction.InputChange -> onInputChange(action)
             CalculatorView.UiAction.Clear -> clearState()
-            CalculatorView.UiAction.OpenInfoScreen -> {
-                _effect.trySend(CalculatorView.Effect.OpenInfoScreen)
-            }
-
+            CalculatorView.UiAction.OpenInfoScreen -> sendEffect(CalculatorView.Effect.OpenInfoScreen)
             CalculatorView.UiAction.DismissExplainerDialog -> setExplainerDialogVisibility(false)
             CalculatorView.UiAction.ShowExplainerDialog -> setExplainerDialogVisibility(true)
         }
@@ -131,7 +128,7 @@ class CalculatorViewModel @Inject constructor(
     }
 
     private fun showIdenticalXInputsErrorToast() {
-        _effect.trySend(
+        sendEffect(
             CalculatorView.Effect.ShowErrorToast(
                 CalculatorView.ErrorType.IdenticalXInputs
             )
@@ -139,7 +136,7 @@ class CalculatorViewModel @Inject constructor(
     }
 
     private fun showNoNumbersInputErrorToast() {
-        _effect.trySend(
+        sendEffect(
             CalculatorView.Effect.ShowErrorToast(
                 CalculatorView.ErrorType.NoNumbersInput
             )
@@ -155,10 +152,16 @@ class CalculatorViewModel @Inject constructor(
     }
 
     private fun showUnknownErrorToast() {
-        _effect.trySend(
+        sendEffect(
             CalculatorView.Effect.ShowErrorToast(
                 CalculatorView.ErrorType.Unknown
             )
         )
+    }
+
+    private fun sendEffect(effect: CalculatorView.Effect) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _effect.send(effect)
+        }
     }
 }
