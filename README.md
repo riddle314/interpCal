@@ -1,6 +1,11 @@
-# Linear Interpolation Calculator
-
-An Android utility for performing linear interpolation and extrapolation calculations.
+<div align="center">
+  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" width="150" alt="App Icon" />
+  <h1>Linear Interpolation Calculator</h1>
+  <p>An Android utility for performing linear interpolation and extrapolation calculations.</p>
+  <a href="https://play.google.com/store/apps/details?id=com.dimitriskatsikas.interpolator">
+    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="60" alt="Get it on Google Play" />
+  </a>
+</div>
 
 ## 🛠 Technical Stack
 
