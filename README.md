@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" width="150" alt="App Icon" />
+  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" width="150" alt="Linear Interpolation Calculator App Icon" />
   <h1>Linear Interpolation Calculator</h1>
   <p>An Android utility for performing linear interpolation and extrapolation calculations.</p>
   <a href="https://play.google.com/store/apps/details?id=com.dimitriskatsikas.interpolator">
